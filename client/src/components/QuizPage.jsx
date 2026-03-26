@@ -1,3 +1,5 @@
+import { useLang } from '../i18n/LangContext';
+import { t } from '../i18n/translations';
 import QuestionCard from './QuestionCard';
 import ProgressBar from './ProgressBar';
 import styles from './QuizPage.module.css';
@@ -16,6 +18,7 @@ export default function QuizPage({
   submitQuiz,
   isSubmitting,
 }) {
+  const { lang } = useLang();
   const pageQuestions = questions.slice(
     currentPage * 10,
     currentPage * 10 + 10,
@@ -46,7 +49,7 @@ export default function QuizPage({
         </div>
 
         {!canAdvance && (
-          <p className={styles.hint}>Answer all questions on this page to continue.</p>
+          <p className={styles.hint}>{t('hint', lang)}</p>
         )}
 
         <div className={styles.nav}>
@@ -55,7 +58,7 @@ export default function QuizPage({
             onClick={prevPage}
             disabled={currentPage === 0}
           >
-            ← Back
+            {t('back', lang)}
           </button>
 
           {isLastPage ? (
@@ -64,7 +67,7 @@ export default function QuizPage({
               onClick={submitQuiz}
               disabled={!canAdvance || isSubmitting}
             >
-              {isSubmitting ? 'Scoring…' : 'Submit Quiz →'}
+              {isSubmitting ? t('scoring', lang) : t('submit', lang)}
             </button>
           ) : (
             <button
@@ -72,7 +75,7 @@ export default function QuizPage({
               onClick={nextPage}
               disabled={!canAdvance}
             >
-              Next →
+              {t('next', lang)}
             </button>
           )}
         </div>

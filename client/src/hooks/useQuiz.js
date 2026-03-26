@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 const QUESTIONS_PER_PAGE = 10;
 
-export default function useQuiz() {
+export default function useQuiz(lang) {
   const [status, setStatus] = useState('loading'); // loading | answering | submitting | done | error
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState({});
@@ -11,8 +11,9 @@ export default function useQuiz() {
   const [results, setResults] = useState(null);
   const [errorMsg, setErrorMsg] = useState('');
 
-  useEffect(() => {
-    fetch('/api/quiz/questions')
+  const fetchQuestions = useCallback(() => {
+    setStatus('loading');
+    fetch(`/api/quiz/questions?lang=${lang}`)
       .then((r) => r.json())
       .then((data) => {
         setQuestions(data.questions);
@@ -22,7 +23,11 @@ export default function useQuiz() {
         setStatus('error');
         setErrorMsg('Could not load questions. Please refresh the page.');
       });
-  }, []);
+  }, [lang]);
+
+  useEffect(() => {
+    fetchQuestions();
+  }, [fetchQuestions]);
 
   const totalPages = Math.ceil(questions.length / QUESTIONS_PER_PAGE);
 
@@ -59,7 +64,7 @@ export default function useQuiz() {
       const res = await fetch('/api/quiz/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ answers }),
+        body: JSON.stringify({ answers, lang }),
       });
       const data = await res.json();
       if (!res.ok) {
