@@ -1,0 +1,105 @@
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+}
+
+.inner {
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+}
+
+.badge {
+  display: inline-block;
+  background: rgba(124, 131, 247, 0.15);
+  color: var(--color-accent);
+  border: 1px solid rgba(124, 131, 247, 0.3);
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.35rem 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  background: linear-gradient(135deg, #e8eaf6 0%, var(--color-accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1.25rem;
+}
+
+.subtitle {
+  font-size: 1.05rem;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+  margin-bottom: 2.5rem;
+}
+
+.subtitle strong {
+  color: var(--color-text);
+}
+
+.dimensions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.dimChip {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+}
+
+.dimKey {
+  font-size: 1.1rem;
+  font-weight: 700;
+  width: 1.5rem;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.dimLabel {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.dimDesc {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-top: 0.1rem;
+}
+
+.dimO .dimKey { color: var(--color-O); }
+.dimC .dimKey { color: var(--color-C); }
+.dimE .dimKey { color: var(--color-E); }
+.dimA .dimKey { color: var(--color-A); }
+.dimN .dimKey { color: var(--color-N); }
+
+.meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+  margin-bottom: 2rem;
+}
+
+.startBtn {
+  font-size: 1.1rem;
+  padding: 0.9rem 2.5rem;
+}
