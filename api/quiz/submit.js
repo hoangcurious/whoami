@@ -1,6 +1,7 @@
 const questions = require('../../server/data/questions');
 const { scoreAll, DIMENSION_NAMES } = require('../../server/lib/scoring');
 const { getDimensionDescription, buildSummary } = require('../../server/lib/summaryText');
+const { deriveMBTI, getMBTIDescription } = require('../../server/lib/mbti');
 
 const DIMENSION_NAMES_VI = {
   O: 'Sự cởi mở',
@@ -54,5 +55,9 @@ module.exports = (req, res) => {
     ...getDimensionDescription(dim, score, lang),
   }));
 
-  res.json({ scores, dimensions, summary });
+  const { type: mbtiType, dichotomies } = deriveMBTI(scores);
+  const mbtiDescription = getMBTIDescription(mbtiType, lang);
+  const mbti = { type: mbtiType, dichotomies, ...mbtiDescription };
+
+  res.json({ scores, dimensions, summary, mbti });
 };

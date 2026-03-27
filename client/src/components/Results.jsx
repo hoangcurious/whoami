@@ -2,12 +2,13 @@ import { useLang } from '../i18n/LangContext';
 import { t } from '../i18n/translations';
 import OceanRadarChart from './OceanRadarChart';
 import DimensionCard from './DimensionCard';
+import MBTICard from './MBTICard';
 import { DIMENSION_ORDER } from '../data/descriptions';
 import styles from './Results.module.css';
 
 export default function Results({ results }) {
   const { lang } = useLang();
-  const { dimensions, summary } = results;
+  const { dimensions, summary, mbti } = results;
 
   // Sort dimensions in OCEAN display order
   const ordered = DIMENSION_ORDER.map((key) =>
@@ -23,8 +24,18 @@ export default function Results({ results }) {
           <p className={styles.summary}>{summary}</p>
         </div>
 
-        <div className={styles.chartCard}>
+        {/* ── MBTI ── */}
+        <div className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>{t('mbti_section', lang)}</h2>
+          <span className={styles.sectionSub}>{t('mbti_derived', lang)}</span>
+        </div>
+        {mbti && <MBTICard mbti={mbti} />}
+
+        {/* ── Big Five ── */}
+        <div className={styles.sectionHeader}>
           <h2 className={styles.sectionTitle}>{t('ocean_profile', lang)}</h2>
+        </div>
+        <div className={styles.chartCard}>
           <OceanRadarChart dimensions={ordered} />
         </div>
 

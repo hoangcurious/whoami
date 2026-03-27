@@ -3,6 +3,7 @@ const router = express.Router();
 const questions = require('../data/questions');
 const { scoreAll, DIMENSION_NAMES } = require('../lib/scoring');
 const { getDimensionDescription, buildSummary } = require('../lib/summaryText');
+const { deriveMBTI, getMBTIDescription } = require('../lib/mbti');
 
 const DIMENSION_NAMES_VI = {
   O: 'Sự cởi mở',
@@ -67,7 +68,11 @@ router.post('/submit', (req, res) => {
     ...getDimensionDescription(dim, score, lang),
   }));
 
-  res.json({ scores, dimensions, summary });
+  const { type: mbtiType, dichotomies } = deriveMBTI(scores);
+  const mbtiDescription = getMBTIDescription(mbtiType, lang);
+  const mbti = { type: mbtiType, dichotomies, ...mbtiDescription };
+
+  res.json({ scores, dimensions, summary, mbti });
 });
 
 module.exports = router;

@@ -47,6 +47,12 @@ const translations = {
     footer_note: 'Results are based on your self-reported behaviors. The Big Five model is widely used in personality psychology research. Scores reflect tendencies, not fixed traits.',
     take_again: 'Take the Quiz Again',
 
+    // MBTI
+    mbti_section: 'MBTI Personality Type',
+    mbti_derived: 'Derived from your Big Five scores',
+    mbti_dichotomies: 'Dichotomy breakdown',
+    mbti_disclaimer: 'MBTI type is derived from your Big Five scores using established correlations (E↔E, O↔N/S, A↔F/T, C↔J/P). It is an approximation, not a standalone MBTI assessment.',
+
     // Loading / Error
     loading: 'Loading questions…',
     error_retry: 'Retry',
@@ -101,6 +107,12 @@ const translations = {
     dimension_breakdown: 'Phân tích chi tiết',
     footer_note: 'Kết quả dựa trên hành vi tự báo cáo của bạn. Mô hình Big Five được sử dụng rộng rãi trong nghiên cứu tâm lý tính cách. Điểm số phản ánh xu hướng, không phải đặc điểm cố định.',
     take_again: 'Làm lại bài đánh giá',
+
+    // MBTI
+    mbti_section: 'Kiểu tính cách MBTI',
+    mbti_derived: 'Được suy ra từ điểm Big Five của bạn',
+    mbti_dichotomies: 'Phân tích các cặp đối lập',
+    mbti_disclaimer: 'Kiểu MBTI được suy ra từ điểm Big Five của bạn dựa trên các tương quan đã được thiết lập (E↔E, O↔N/S, A↔F/T, C↔J/P). Đây là ước tính, không phải bài đánh giá MBTI độc lập.',
 
     // Loading / Error
     loading: 'Đang tải câu hỏi…',
