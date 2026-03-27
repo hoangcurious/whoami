@@ -1,0 +1,78 @@
+import { useLang } from '../i18n/LangContext';
+import { t } from '../i18n/translations';
+import styles from './DiscResultCard.module.css';
+
+const STYLE_COLORS = {
+  D: '#f87171',
+  I: '#fbbf24',
+  S: '#34d399',
+  C: '#60a5fa',
+};
+
+const STYLE_ORDER = ['D', 'I', 'S', 'C'];
+
+export default function DiscResultCard({ results }) {
+  const { lang } = useLang();
+  const { disc } = results;
+  const { primary, secondary, pcts, title, tagline, text } = disc;
+
+  return (
+    <div className={styles.card}>
+      <div className={styles.header}>
+        <div className={styles.typeBadge}>
+          {STYLE_ORDER.map((s) => (
+            <span
+              key={s}
+              className={`${styles.styleLetter} ${s === primary ? styles.styleActive : ''}`}
+              style={{ color: s === primary ? STYLE_COLORS[s] : 'var(--color-text-muted)' }}
+            >
+              {s}
+            </span>
+          ))}
+        </div>
+        <div className={styles.typeInfo}>
+          <div className={styles.typeTitle}>{title}</div>
+          <div className={styles.typeTagline}>{tagline}</div>
+        </div>
+      </div>
+
+      <p className={styles.typeText}>{text}</p>
+
+      <div className={styles.scoresSection}>
+        <div className={styles.scoresLabel}>{t('disc_profile', lang)}</div>
+        <div className={styles.bars}>
+          {STYLE_ORDER.map((s) => {
+            const pct = pcts[s] ?? 0;
+            const isActive = s === primary || s === secondary;
+            return (
+              <div key={s} className={styles.barRow}>
+                <span
+                  className={`${styles.barLabel} ${isActive ? styles.barLabelActive : ''}`}
+                  style={{ color: isActive ? STYLE_COLORS[s] : undefined }}
+                >
+                  {s}
+                </span>
+                <div className={styles.barTrack}>
+                  <div
+                    className={styles.barFill}
+                    style={{
+                      width: `${pct}%`,
+                      background: STYLE_COLORS[s],
+                      opacity: isActive ? 0.9 : 0.35,
+                    }}
+                  />
+                </div>
+                <span className={styles.barPct}>{pct}%</span>
+              </div>
+            );
+          })}
+        </div>
+        {secondary && (
+          <div className={styles.secondaryNote}>
+            {t('disc_secondary', lang)}: <strong style={{ color: STYLE_COLORS[secondary] }}>{secondary}</strong>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

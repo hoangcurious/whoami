@@ -17,9 +17,12 @@ export default function MbtiQuizPage({
   submitQuiz,
   isSubmitting,
   onBack,
+  quizLabel,
 }) {
   const { lang } = useLang();
-  const QUESTIONS_PER_PAGE = 4;
+  const QUESTIONS_PER_PAGE = questions.length > 0
+    ? Math.ceil(questions.length / totalPages)
+    : 4;
   const pageQuestions = questions.slice(
     currentPage * QUESTIONS_PER_PAGE,
     currentPage * QUESTIONS_PER_PAGE + QUESTIONS_PER_PAGE,
@@ -34,7 +37,7 @@ export default function MbtiQuizPage({
           <button className="btn btn-ghost" onClick={onBack} style={{ fontSize: '0.85rem' }}>
             ← {t('back_home', lang)}
           </button>
-          <span className={styles.quizLabel}>{t('mbti_quiz_label', lang)}</span>
+          <span className={styles.quizLabel}>{quizLabel ?? t('mbti_quiz_label', lang)}</span>
         </div>
 
         <ProgressBar

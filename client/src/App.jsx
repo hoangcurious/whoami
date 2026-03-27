@@ -1,14 +1,30 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { useLang } from './i18n/LangContext';
 import { t } from './i18n/translations';
 import useQuiz from './hooks/useQuiz';
-import useMbtiQuiz from './hooks/useMbtiQuiz';
+import useModelQuiz from './hooks/useModelQuiz';
 import LangToggle from './components/LangToggle';
 import HomeScreen from './components/HomeScreen';
 import QuizPage from './components/QuizPage';
 import MbtiQuizPage from './components/MbtiQuizPage';
 import Results from './components/Results';
-import MbtiResults from './components/MbtiResults';
+import ModelResults from './components/ModelResults';
+import MbtiResultCard from './components/MbtiResultCard';
+import EnneagramResultCard from './components/EnneagramResultCard';
+import DiscResultCard from './components/DiscResultCard';
+import AttachmentResultCard from './components/AttachmentResultCard';
+import LoveLangResultCard from './components/LoveLangResultCard';
+import { AB_MODELS, BF_MODEL } from './config/models';
+
+// ── Result card registry ──────────────────────────────────────────────────────
+
+const RESULT_CARDS = {
+  mbti:       MbtiResultCard,
+  enneagram:  EnneagramResultCard,
+  disc:       DiscResultCard,
+  attachment: AttachmentResultCard,
+  lovelang:   LoveLangResultCard,
+};
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -81,10 +97,10 @@ function BigFiveFlow({ lang, onDone, onBack }) {
   );
 }
 
-// ── MBTI flow ─────────────────────────────────────────────────────────────────
+// ── Generic A/B model flow ────────────────────────────────────────────────────
 
-function MbtiFlow({ lang, onDone, onBack }) {
-  const quiz = useMbtiQuiz(lang);
+function GenericABFlow({ modelId, perPage, lang, onDone, onBack }) {
+  const quiz = useModelQuiz(modelId, lang, perPage);
 
   useEffect(() => {
     if (quiz.status === 'done' && quiz.results) {
@@ -136,21 +152,22 @@ function MbtiFlow({ lang, onDone, onBack }) {
 
 export default function App() {
   const { lang } = useLang();
-
   const [screen, setScreen] = useState('home');
-  const [bfResults, setBfResults] = useState(() => loadStored('whoami_bf_results'));
-  const [mbtiResults, setMbtiResults] = useState(() => loadStored('whoami_mbti_results'));
 
-  function handleBfDone(results) {
-    saveStored('whoami_bf_results', results);
-    setBfResults(results);
-    setScreen('bf_results');
-  }
+  // All results in one object keyed by model id
+  const [storedResults, setStoredResults] = useState(() => {
+    const r = {};
+    r[BF_MODEL.id] = loadStored(BF_MODEL.storageKey);
+    for (const m of AB_MODELS) {
+      r[m.id] = loadStored(m.storageKey);
+    }
+    return r;
+  });
 
-  function handleMbtiDone(results) {
-    saveStored('whoami_mbti_results', results);
-    setMbtiResults(results);
-    setScreen('mbti_results');
+  function handleDone(model, results) {
+    saveStored(model.storageKey, results);
+    setStoredResults((prev) => ({ ...prev, [model.id]: results }));
+    setScreen(`${model.id}_results`);
   }
 
   return (
@@ -159,46 +176,51 @@ export default function App() {
 
       {screen === 'home' && (
         <HomeScreen
-          bfResults={bfResults}
-          mbtiResults={mbtiResults}
-          onStartBigFive={() => setScreen('bigfive')}
-          onStartMbti={() => setScreen('mbti')}
-          onViewBfResults={() => setScreen('bf_results')}
-          onViewMbtiResults={() => setScreen('mbti_results')}
+          storedResults={storedResults}
+          onStart={(modelId) => setScreen(modelId)}
+          onViewResults={(modelId) => setScreen(`${modelId}_results`)}
         />
       )}
 
-      {screen === 'bigfive' && (
+      {/* Big Five */}
+      {screen === BF_MODEL.id && (
         <BigFiveFlow
           lang={lang}
-          onDone={handleBfDone}
+          onDone={(r) => handleDone(BF_MODEL, r)}
           onBack={() => setScreen('home')}
         />
       )}
-
-      {screen === 'bf_results' && bfResults && (
+      {screen === `${BF_MODEL.id}_results` && storedResults[BF_MODEL.id] && (
         <Results
-          results={bfResults}
+          results={storedResults[BF_MODEL.id]}
           onBack={() => setScreen('home')}
-          onRetake={() => setScreen('bigfive')}
+          onRetake={() => setScreen(BF_MODEL.id)}
         />
       )}
 
-      {screen === 'mbti' && (
-        <MbtiFlow
-          lang={lang}
-          onDone={handleMbtiDone}
-          onBack={() => setScreen('home')}
-        />
-      )}
-
-      {screen === 'mbti_results' && mbtiResults && (
-        <MbtiResults
-          results={mbtiResults}
-          onBack={() => setScreen('home')}
-          onRetake={() => setScreen('mbti')}
-        />
-      )}
+      {/* All A/B models */}
+      {AB_MODELS.map((model) => (
+        <Fragment key={model.id}>
+          {screen === model.id && (
+            <GenericABFlow
+              modelId={model.id}
+              perPage={model.perPage}
+              lang={lang}
+              onDone={(r) => handleDone(model, r)}
+              onBack={() => setScreen('home')}
+            />
+          )}
+          {screen === `${model.id}_results` && storedResults[model.id] && (
+            <ModelResults
+              model={model}
+              ResultCard={RESULT_CARDS[model.id]}
+              results={storedResults[model.id]}
+              onBack={() => setScreen('home')}
+              onRetake={() => setScreen(model.id)}
+            />
+          )}
+        </Fragment>
+      ))}
     </>
   );
 }
