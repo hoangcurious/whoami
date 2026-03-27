@@ -80,3 +80,11 @@
   border-top: 1px solid var(--color-border);
   padding-top: 2rem;
 }
+
+.footerActions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}

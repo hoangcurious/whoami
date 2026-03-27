@@ -1,0 +1,114 @@
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 2rem;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.typeBadge {
+  display: flex;
+  gap: 0.1rem;
+  font-size: 2.8rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.typeLetter {
+  display: inline-block;
+}
+
+.typeInfo {
+  padding-top: 0.25rem;
+}
+
+.typeTitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+
+.typeTagline {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+.typeText {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  line-height: 1.75;
+  margin-bottom: 1.75rem;
+}
+
+.dichotomies {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  background: var(--color-surface-2);
+  border-radius: var(--radius-sm);
+  padding: 1.25rem;
+}
+
+.dichotomiesLabel {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--color-text-muted);
+  margin-bottom: 0.25rem;
+}
+
+.dichotomy {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.3rem;
+}
+
+.dichotomyLabels {
+  display: flex;
+  justify-content: space-between;
+}
+
+.pole {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  transition: color 0.15s;
+}
+
+.poleChosen {
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+.barTrack {
+  height: 6px;
+  background: var(--color-border);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  border-radius: 100px;
+  transition: width 0.8s ease;
+  opacity: 0.85;
+}
+
+.dichotomyPcts {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}

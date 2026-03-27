@@ -1,0 +1,148 @@
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1.5rem;
+}
+
+.inner {
+  width: 100%;
+  max-width: 700px;
+  text-align: center;
+}
+
+.badge {
+  display: inline-block;
+  background: rgba(124, 131, 247, 0.12);
+  color: var(--color-accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.3rem 0.85rem;
+  border-radius: 100px;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.75rem;
+}
+
+.subtitle {
+  color: var(--color-text-muted);
+  font-size: 1.05rem;
+  line-height: 1.65;
+  max-width: 480px;
+  margin: 0 auto 2.5rem;
+}
+
+/* Two-column quiz cards */
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+@media (max-width: 560px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+.quizCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  transition: border-color var(--transition);
+}
+
+.quizCard:hover {
+  border-color: var(--color-accent);
+}
+
+.quizCard.done {
+  border-color: rgba(124, 131, 247, 0.4);
+}
+
+.cardTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 0.875rem;
+}
+
+.cardIcon {
+  display: flex;
+  gap: 0.05rem;
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.iconLetter {
+  display: inline-block;
+}
+
+.doneBadge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: rgba(124, 131, 247, 0.15);
+  color: var(--color-accent);
+  padding: 0.2rem 0.6rem;
+  border-radius: 100px;
+}
+
+.cardTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.cardDesc {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  line-height: 1.55;
+  margin-bottom: 0.75rem;
+}
+
+.cardMeta {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  margin-bottom: 1.25rem;
+}
+
+.startBtn {
+  width: 100%;
+}
+
+.doneActions {
+  display: flex;
+  gap: 0.625rem;
+}
+
+.doneActions :global(.btn) {
+  flex: 1;
+  text-align: center;
+  justify-content: center;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}

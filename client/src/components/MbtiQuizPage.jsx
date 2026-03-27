@@ -1,16 +1,15 @@
 import { useLang } from '../i18n/LangContext';
 import { t } from '../i18n/translations';
-import QuestionCard from './QuestionCard';
+import MbtiQuestionCard from './MbtiQuestionCard';
 import ProgressBar from './ProgressBar';
-import styles from './QuizPage.module.css';
+import styles from './MbtiQuizPage.module.css';
 
-export default function QuizPage({
+export default function MbtiQuizPage({
   questions,
   currentPage,
   totalPages,
   answers,
   answeredCount,
-  totalQuestions,
   isPageComplete,
   setAnswer,
   nextPage,
@@ -20,9 +19,10 @@ export default function QuizPage({
   onBack,
 }) {
   const { lang } = useLang();
+  const QUESTIONS_PER_PAGE = 4;
   const pageQuestions = questions.slice(
-    currentPage * 10,
-    currentPage * 10 + 10,
+    currentPage * QUESTIONS_PER_PAGE,
+    currentPage * QUESTIONS_PER_PAGE + QUESTIONS_PER_PAGE,
   );
   const isLastPage = currentPage === totalPages - 1;
   const canAdvance = isPageComplete(currentPage);
@@ -30,28 +30,30 @@ export default function QuizPage({
   return (
     <div className={styles.wrapper}>
       <div className="container">
-        {onBack && (
-          <div style={{ marginBottom: '1rem' }}>
-            <button className="btn btn-ghost" onClick={onBack} style={{ fontSize: '0.85rem' }}>
-              ← {t('back_home', lang)}
-            </button>
-          </div>
-        )}
+        <div className={styles.topBar}>
+          <button className="btn btn-ghost" onClick={onBack} style={{ fontSize: '0.85rem' }}>
+            ← {t('back_home', lang)}
+          </button>
+          <span className={styles.quizLabel}>{t('mbti_quiz_label', lang)}</span>
+        </div>
+
         <ProgressBar
           current={currentPage}
           total={totalPages}
           answeredCount={answeredCount}
-          totalQuestions={totalQuestions}
+          totalQuestions={questions.length}
         />
+
+        <p className={styles.instruction}>{t('mbti_instruction', lang)}</p>
 
         <div className={styles.questions}>
           {pageQuestions.map((q, i) => (
-            <QuestionCard
+            <MbtiQuestionCard
               key={q.id}
               question={q}
-              index={currentPage * 10 + i + 1}
-              value={answers[q.id]}
-              onChange={setAnswer}
+              index={currentPage * QUESTIONS_PER_PAGE + i + 1}
+              answer={answers[q.id]}
+              onAnswer={setAnswer}
             />
           ))}
         </div>

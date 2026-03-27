@@ -2,15 +2,13 @@ import { useLang } from '../i18n/LangContext';
 import { t } from '../i18n/translations';
 import OceanRadarChart from './OceanRadarChart';
 import DimensionCard from './DimensionCard';
-import MBTICard from './MBTICard';
 import { DIMENSION_ORDER } from '../data/descriptions';
 import styles from './Results.module.css';
 
-export default function Results({ results }) {
+export default function Results({ results, onBack, onRetake }) {
   const { lang } = useLang();
-  const { dimensions, summary, mbti } = results;
+  const { dimensions, summary } = results;
 
-  // Sort dimensions in OCEAN display order
   const ordered = DIMENSION_ORDER.map((key) =>
     dimensions.find((d) => d.key === key),
   ).filter(Boolean);
@@ -24,14 +22,6 @@ export default function Results({ results }) {
           <p className={styles.summary}>{summary}</p>
         </div>
 
-        {/* ── MBTI ── */}
-        <div className={styles.sectionHeader}>
-          <h2 className={styles.sectionTitle}>{t('mbti_section', lang)}</h2>
-          <span className={styles.sectionSub}>{t('mbti_derived', lang)}</span>
-        </div>
-        {mbti && <MBTICard mbti={mbti} />}
-
-        {/* ── Big Five ── */}
         <div className={styles.sectionHeader}>
           <h2 className={styles.sectionTitle}>{t('ocean_profile', lang)}</h2>
         </div>
@@ -48,13 +38,18 @@ export default function Results({ results }) {
 
         <div className={styles.footer}>
           <p>{t('footer_note', lang)}</p>
-          <button
-            className="btn btn-ghost"
-            onClick={() => window.location.reload()}
-            style={{ marginTop: '1rem' }}
-          >
-            {t('take_again', lang)}
-          </button>
+          <div className={styles.footerActions}>
+            {onRetake && (
+              <button className="btn btn-ghost" onClick={onRetake}>
+                {t('retake', lang)}
+              </button>
+            )}
+            {onBack && (
+              <button className="btn btn-primary" onClick={onBack}>
+                {t('back_home', lang)}
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>
