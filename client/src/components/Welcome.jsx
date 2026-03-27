@@ -11,9 +11,39 @@ export default function Welcome({ onStart }) {
         <div className={styles.badge}>{t('badge', lang)}</div>
         <h1 className={styles.title}>{t('title', lang)}</h1>
         <p className={styles.subtitle}>
-          {t('subtitle_1', lang)} <strong>{t('subtitle_model', lang)}</strong>{t('subtitle_2', lang)}
+          {t('subtitle_1', lang)}{' '}
+          <strong>{t('subtitle_model', lang)}</strong>{' '}
+          {t('subtitle_2', lang)}{' '}
+          <strong>{t('subtitle_3', lang)}</strong>{' '}
+          {t('subtitle_4', lang)}
         </p>
 
+        {/* What you'll receive */}
+        <div className={styles.reportsRow}>
+          <div className={styles.reportCard}>
+            <div className={styles.reportIcon}>
+              {['O','C','E','A','N'].map((l, i) => (
+                <span key={i} className={styles.reportIconLetter} style={{ color: `var(--color-${l})` }}>{l}</span>
+              ))}
+            </div>
+            <div className={styles.reportName}>{t('welcome_bigfive_title', lang)}</div>
+            <div className={styles.reportDesc}>{t('welcome_bigfive_desc', lang)}</div>
+          </div>
+
+          <div className={styles.reportPlus}>+</div>
+
+          <div className={styles.reportCard}>
+            <div className={styles.reportIcon}>
+              {['I','N','T','J'].map((l, i) => (
+                <span key={i} className={styles.reportIconLetter} style={{ opacity: 0.55 + i * 0.15 }}>{l}</span>
+              ))}
+            </div>
+            <div className={styles.reportName}>{t('welcome_mbti_title', lang)}</div>
+            <div className={styles.reportDesc}>{t('welcome_mbti_desc', lang)}</div>
+          </div>
+        </div>
+
+        {/* OCEAN dimension list */}
         <div className={styles.dimensions}>
           {[
             { key: 'O', labelKey: 'dim_O', descKey: 'dim_O_desc' },

@@ -39,7 +39,58 @@
   font-size: 1.05rem;
   color: var(--color-text-muted);
   line-height: 1.7;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.75rem;
+}
+
+/* ── Report preview cards ── */
+.reportsRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.reportCard {
+  flex: 1;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1rem;
+  text-align: center;
+}
+
+.reportPlus {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.reportIcon {
+  display: flex;
+  justify-content: center;
+  gap: 1px;
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.6rem;
+}
+
+.reportIconLetter {
+  color: var(--color-accent);
+}
+
+.reportName {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.reportDesc {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
 }
 
 .subtitle strong {
