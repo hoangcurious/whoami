@@ -177,3 +177,74 @@
   font-size: 0.8rem;
   color: var(--color-text-muted);
 }
+
+/* ── Synthesis card (full-width, below grid) ── */
+.synthesisCard {
+  grid-column: 1 / -1;
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  border: 1.5px solid rgba(124, 131, 247, 0.35);
+  background: linear-gradient(135deg, rgba(124,131,247,0.06) 0%, rgba(251,146,60,0.04) 100%);
+  padding: 1.5rem 1.75rem;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.synthesisCard.locked {
+  opacity: 0.7;
+  border-color: var(--color-border);
+  background: var(--color-surface);
+}
+
+.synthesisCardLeft {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.synthesisIcon {
+  font-size: 1.75rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.synthesisCardTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 0.2rem;
+  color: var(--color-text);
+}
+
+.synthesisCardDesc {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  margin: 0 0 0.6rem;
+  line-height: 1.45;
+}
+
+.synthesisChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.synthesisChip {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  border: 1.5px solid;
+  letter-spacing: 0.04em;
+}
+
+.lockedMsg {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
