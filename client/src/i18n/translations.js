@@ -150,6 +150,12 @@ const translations = {
     synthesis_sources: 'Sources',
     synthesis_footer: '{completed} of {total} assessments complete',
     synthesis_complete_more: 'Complete more assessments to enrich this report.',
+
+    // ── Share ─────────────────────────────────────────────────────────────
+    share_copy: 'Share results',
+    share_copied: 'Link copied!',
+    share_readonly_cta: 'Take this quiz →',
+    synthesis_echoes: 'Your profile echoes',
   },
 
   vi: {
@@ -303,6 +309,12 @@ const translations = {
     synthesis_sources: 'Nguồn',
     synthesis_footer: '{completed} trong {total} bài đánh giá đã hoàn thành',
     synthesis_complete_more: 'Hoàn thành thêm các bài đánh giá để làm phong phú báo cáo này.',
+
+    // ── Share ─────────────────────────────────────────────────────────────
+    share_copy: 'Chia sẻ kết quả',
+    share_copied: 'Đã sao chép!',
+    share_readonly_cta: 'Làm bài kiểm tra này →',
+    synthesis_echoes: 'Hồ sơ của bạn gợi nhớ đến',
   },
 };
 

@@ -1,5 +1,7 @@
 import { useLang } from '../i18n/LangContext';
 import { t } from '../i18n/translations';
+import PersonalityHero from './PersonalityHero';
+import { FAMOUS } from '../data/famousPersons';
 import styles from './LoveLangResultCard.module.css';
 
 const LANG_COLORS = {
@@ -22,16 +24,14 @@ export default function LoveLangResultCard({ results }) {
 
   return (
     <div className={styles.card}>
-      {/* Top language highlight */}
-      <div className={styles.header}>
-        <div className={styles.topIcon} style={{ background: LANG_COLORS[top.lang] }} />
-        <div className={styles.typeInfo}>
-          <div className={styles.typeTitle} style={{ color: LANG_COLORS[top.lang] }}>
-            {top.title}
-          </div>
-          <div className={styles.typeTagline}>{top.tagline}</div>
-        </div>
-      </div>
+      <PersonalityHero
+        model="lovelang"
+        typeLabel={t(`lovelang_short_${top.lang}`, lang)}
+        title={top.title}
+        tagline={top.tagline}
+        color={LANG_COLORS[top.lang]}
+        famous={FAMOUS.lovelang[top.lang] || null}
+      />
 
       <p className={styles.typeText}>{top.text}</p>
 

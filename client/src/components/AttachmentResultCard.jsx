@@ -1,5 +1,7 @@
 import { useLang } from '../i18n/LangContext';
 import { t } from '../i18n/translations';
+import PersonalityHero from './PersonalityHero';
+import { FAMOUS } from '../data/famousPersons';
 import styles from './AttachmentResultCard.module.css';
 
 const STYLE_COLORS = {
@@ -19,13 +21,13 @@ export default function AttachmentResultCard({ results }) {
 
   return (
     <div className={styles.card} style={{ '--accent': color }}>
-      <div className={styles.header}>
-        <div className={styles.typeDot} style={{ background: color }} />
-        <div className={styles.typeInfo}>
-          <div className={styles.typeTitle} style={{ color }}>{title}</div>
-          <div className={styles.typeTagline}>{tagline}</div>
-        </div>
-      </div>
+      <PersonalityHero
+        model="attachment"
+        typeLabel={title}
+        tagline={tagline}
+        color={color}
+        famous={FAMOUS.attachment[primary] || null}
+      />
 
       <p className={styles.typeText}>{text}</p>
 

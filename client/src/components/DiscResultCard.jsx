@@ -1,5 +1,7 @@
 import { useLang } from '../i18n/LangContext';
 import { t } from '../i18n/translations';
+import PersonalityHero from './PersonalityHero';
+import { FAMOUS } from '../data/famousPersons';
 import styles from './DiscResultCard.module.css';
 
 const STYLE_COLORS = {
@@ -18,23 +20,14 @@ export default function DiscResultCard({ results }) {
 
   return (
     <div className={styles.card}>
-      <div className={styles.header}>
-        <div className={styles.typeBadge}>
-          {STYLE_ORDER.map((s) => (
-            <span
-              key={s}
-              className={`${styles.styleLetter} ${s === primary ? styles.styleActive : ''}`}
-              style={{ color: s === primary ? STYLE_COLORS[s] : 'var(--color-text-muted)' }}
-            >
-              {s}
-            </span>
-          ))}
-        </div>
-        <div className={styles.typeInfo}>
-          <div className={styles.typeTitle}>{title}</div>
-          <div className={styles.typeTagline}>{tagline}</div>
-        </div>
-      </div>
+      <PersonalityHero
+        model="disc"
+        typeLabel={primary}
+        title={title}
+        tagline={tagline}
+        color={STYLE_COLORS[primary]}
+        famous={FAMOUS.disc[primary] || null}
+      />
 
       <p className={styles.typeText}>{text}</p>
 

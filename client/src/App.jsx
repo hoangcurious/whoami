@@ -1,4 +1,4 @@
-import { useState, useEffect, Fragment } from 'react';
+import { useState, useEffect, useCallback, Fragment } from 'react';
 import { useLang } from './i18n/LangContext';
 import { t } from './i18n/translations';
 import useQuiz from './hooks/useQuiz';
@@ -10,6 +10,7 @@ import MbtiQuizPage from './components/MbtiQuizPage';
 import Results from './components/Results';
 import ModelResults from './components/ModelResults';
 import SynthesisReport from './components/SynthesisReport';
+import { parseShareParams, decodeShare } from './lib/shareUrl';
 import MbtiResultCard from './components/MbtiResultCard';
 import EnneagramResultCard from './components/EnneagramResultCard';
 import DiscResultCard from './components/DiscResultCard';
@@ -154,6 +155,7 @@ function GenericABFlow({ modelId, perPage, lang, onDone, onBack }) {
 export default function App() {
   const { lang } = useLang();
   const [screen, setScreen] = useState('home');
+  const [sharedResult, setSharedResult] = useState(null); // { modelId, data }
 
   // All results in one object keyed by model id
   const [storedResults, setStoredResults] = useState(() => {
@@ -168,6 +170,18 @@ export default function App() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [screen]);
+
+  // Parse share URL on mount
+  useEffect(() => {
+    const params = parseShareParams();
+    if (!params) return;
+    decodeShare(params.encoded)
+      .then(data => {
+        setSharedResult({ modelId: params.modelId, data });
+        setScreen(`share_${params.modelId}`);
+      })
+      .catch(() => {/* malformed — stay on home */});
+  }, []);
 
   function handleDone(model, results) {
     saveStored(model.storageKey, results);
@@ -233,6 +247,35 @@ export default function App() {
           )}
         </Fragment>
       ))}
+
+      {/* Shared result screens (read-only) */}
+      {screen === 'share_bigfive' && sharedResult?.data && (
+        <Results
+          results={sharedResult.data}
+          onBack={() => setScreen('home')}
+          readOnly
+        />
+      )}
+      {screen === 'share_synthesis' && sharedResult?.data && (
+        <SynthesisReport
+          storedResults={sharedResult.data}
+          onBack={() => setScreen('home')}
+          readOnly
+        />
+      )}
+      {AB_MODELS.map((model) =>
+        screen === `share_${model.id}` && sharedResult?.data ? (
+          <ModelResults
+            key={model.id}
+            model={model}
+            ResultCard={RESULT_CARDS[model.id]}
+            results={sharedResult.data}
+            onBack={() => setScreen('home')}
+            onRetake={() => setScreen('home')}
+            readOnly
+          />
+        ) : null
+      )}
     </>
   );
 }
