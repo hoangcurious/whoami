@@ -165,6 +165,10 @@ export default function App() {
     return r;
   });
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [screen]);
+
   function handleDone(model, results) {
     saveStored(model.storageKey, results);
     setStoredResults((prev) => ({ ...prev, [model.id]: results }));
