@@ -1,5 +1,7 @@
 import { useLang } from '../i18n/LangContext';
 import { t } from '../i18n/translations';
+import PersonalityHero from './PersonalityHero';
+import { FAMOUS } from '../data/famousPersons';
 import styles from './EnneagramResultCard.module.css';
 
 const TYPE_COLORS = {
@@ -17,16 +19,14 @@ export default function EnneagramResultCard({ results }) {
 
   return (
     <div className={styles.card}>
-      <div className={styles.header}>
-        <div className={styles.typeBadge} style={{ color }}>
-          <span className={styles.typeNum}>{type}</span>
-          {wing && <span className={styles.wing}>w{wing}</span>}
-        </div>
-        <div className={styles.typeInfo}>
-          <div className={styles.typeTitle}>{title}</div>
-          <div className={styles.typeTagline}>{tagline}</div>
-        </div>
-      </div>
+      <PersonalityHero
+        model="enneagram"
+        typeLabel={wing ? `${type}w${wing}` : `${type}`}
+        title={title}
+        tagline={tagline}
+        color={color}
+        famous={FAMOUS.enneagram[type] || null}
+      />
 
       <p className={styles.typeText}>{text}</p>
 

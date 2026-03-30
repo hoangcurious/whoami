@@ -1,5 +1,7 @@
 import { useLang } from '../i18n/LangContext';
 import { t } from '../i18n/translations';
+import PersonalityHero from './PersonalityHero';
+import { FAMOUS } from '../data/famousPersons';
 import styles from './MbtiResultCard.module.css';
 
 const DICHOTOMY_ORDER = ['EI', 'SN', 'TF', 'JP'];
@@ -52,21 +54,18 @@ export default function MbtiResultCard({ mbti }) {
   const { lang } = useLang();
   const letters = mbti.type.split('');
 
+  const accentColor = LETTER_COLORS[letters[0]] || 'var(--color-accent)';
+
   return (
     <div className={styles.card}>
-      <div className={styles.header}>
-        <div className={styles.typeBadge}>
-          {letters.map((l, i) => (
-            <span key={i} className={styles.typeLetter} style={{ color: LETTER_COLORS[l] }}>
-              {l}
-            </span>
-          ))}
-        </div>
-        <div className={styles.typeInfo}>
-          <div className={styles.typeTitle}>{mbti.title}</div>
-          <div className={styles.typeTagline}>{mbti.tagline}</div>
-        </div>
-      </div>
+      <PersonalityHero
+        model="mbti"
+        typeLabel={mbti.type}
+        title={mbti.title}
+        tagline={mbti.tagline}
+        color={accentColor}
+        famous={FAMOUS.mbti[mbti.type] || null}
+      />
 
       <p className={styles.typeText}>{mbti.text}</p>
 
