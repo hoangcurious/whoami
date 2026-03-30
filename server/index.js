@@ -6,6 +6,7 @@ const discRouter = require('./routes/disc');
 const attachmentRouter = require('./routes/attachment');
 const loveLangRouter = require('./routes/loveLang');
 const enneagramRouter = require('./routes/enneagram');
+const shareOgHandler = require('./lib/shareOg');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -19,6 +20,7 @@ app.use('/api/disc', discRouter);
 app.use('/api/attachment', attachmentRouter);
 app.use('/api/lovelang', loveLangRouter);
 app.use('/api/enneagram', enneagramRouter);
+app.get('/api/share', shareOgHandler);
 
 app.get('/health', (_req, res) => res.json({ status: 'ok' }));
 
