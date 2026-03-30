@@ -2,10 +2,11 @@ import { useLang } from '../i18n/LangContext';
 import { t } from '../i18n/translations';
 import OceanRadarChart from './OceanRadarChart';
 import DimensionCard from './DimensionCard';
+import ShareButton from './ShareButton';
 import { DIMENSION_ORDER } from '../data/descriptions';
 import styles from './Results.module.css';
 
-export default function Results({ results, onBack, onRetake }) {
+export default function Results({ results, onBack, onRetake, readOnly }) {
   const { lang } = useLang();
   const { dimensions, summary } = results;
 
@@ -39,15 +40,24 @@ export default function Results({ results, onBack, onRetake }) {
         <div className={styles.footer}>
           <p>{t('footer_note', lang)}</p>
           <div className={styles.footerActions}>
-            {onRetake && (
-              <button className="btn btn-ghost" onClick={onRetake}>
-                {t('retake', lang)}
-              </button>
-            )}
-            {onBack && (
+            {readOnly ? (
               <button className="btn btn-primary" onClick={onBack}>
-                {t('back_home', lang)}
+                {t('share_readonly_cta', lang)}
               </button>
+            ) : (
+              <>
+                <ShareButton modelId="bigfive" data={results} />
+                {onRetake && (
+                  <button className="btn btn-ghost" onClick={onRetake}>
+                    {t('retake', lang)}
+                  </button>
+                )}
+                {onBack && (
+                  <button className="btn btn-primary" onClick={onBack}>
+                    {t('back_home', lang)}
+                  </button>
+                )}
+              </>
             )}
           </div>
         </div>
