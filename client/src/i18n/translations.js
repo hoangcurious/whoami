@@ -154,6 +154,7 @@ const translations = {
     // ── Share ─────────────────────────────────────────────────────────────
     share_copy: 'Share results',
     share_copied: 'Link copied!',
+    share_og_title: 'My personality profile — whoami',
     share_readonly_cta: 'Take this quiz →',
     synthesis_echoes: 'Your profile echoes',
   },
@@ -313,6 +314,7 @@ const translations = {
     // ── Share ─────────────────────────────────────────────────────────────
     share_copy: 'Chia sẻ kết quả',
     share_copied: 'Đã sao chép!',
+    share_og_title: 'Hồ sơ tính cách của tôi — whoami',
     share_readonly_cta: 'Làm bài kiểm tra này →',
     synthesis_echoes: 'Hồ sơ của bạn gợi nhớ đến',
   },

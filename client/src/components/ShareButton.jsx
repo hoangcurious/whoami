@@ -12,9 +12,14 @@ export default function ShareButton({ modelId, data }) {
     setState('copying');
     try {
       const url = await buildShareUrl(modelId, data);
-      await navigator.clipboard.writeText(url);
-      setState('copied');
-      setTimeout(() => setState('idle'), 2000);
+      if (navigator.share) {
+        await navigator.share({ title: t('share_og_title', lang), url });
+        setState('idle');
+      } else {
+        await navigator.clipboard.writeText(url);
+        setState('copied');
+        setTimeout(() => setState('idle'), 2000);
+      }
     } catch {
       setState('idle');
     }
