@@ -1,11 +1,12 @@
 import styles from './MbtiQuestionCard.module.css';
 
 export default function MbtiQuestionCard({ question, index, answer, onAnswer }) {
+  const labelId = `mbti-q-label-${question.id}`;
   return (
-    <fieldset className={styles.card}>
-      <legend className={styles.question}>
+    <div className={styles.card} role="group" aria-labelledby={labelId}>
+      <p id={labelId} className={styles.question}>
         <span className={styles.index}>{index}.</span> {question.text}
-      </legend>
+      </p>
       <div className={styles.options}>
         {['A', 'B'].map((opt) => {
           const label = opt === 'A' ? question.option_a : question.option_b;
@@ -29,6 +30,6 @@ export default function MbtiQuestionCard({ question, index, answer, onAnswer }) 
           );
         })}
       </div>
-    </fieldset>
+    </div>
   );
 }
