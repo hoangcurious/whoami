@@ -38,19 +38,17 @@ function textAnchor(angleDeg) {
   return 'end';
 }
 
-function PentagonChart({ dimensions }) {
+function PentagonChart({ dimensions, labels }) {
   const guideVerts = AXES.map(a => ptAt(R, a.angleDeg));
   const balanceVerts = AXES.map(a => ptAt(R * 0.5, a.angleDeg));
 
-  // Build user polygon — match dimensions array order to AXES order
   const dimMap = Object.fromEntries((dimensions || []).map(d => [d.id, d]));
   const userVerts = AXES.map(a => {
     const dim = dimMap[a.id];
-    const score = dim?.score ?? 50; // default to centre if no data
+    const score = dim?.score ?? 50;
     return ptAt((score / 100) * R, a.angleDeg);
   });
 
-  // Accent colour blend — use first available colour or fallback
   const firstColor = (dimensions || []).find(d => d.accentColor)?.accentColor || '#60a5fa';
 
   return (
@@ -61,44 +59,73 @@ function PentagonChart({ dimensions }) {
           <stop offset="100%" stopColor={firstColor} stopOpacity="0.1" />
         </radialGradient>
       </defs>
-
-      {/* Axis lines */}
       {AXES.map((a) => {
         const [x, y] = ptAt(R, a.angleDeg);
-        return (
-          <line key={a.id} x1={CX} y1={CY} x2={x} y2={y}
-            stroke="var(--color-border, #334155)" strokeWidth="1" />
-        );
+        return <line key={a.id} x1={CX} y1={CY} x2={x} y2={y}
+          stroke="var(--color-border, #334155)" strokeWidth="1" />;
       })}
-
-      {/* Guide pentagon */}
       <polygon points={toPolygon(guideVerts)}
         fill="none" stroke="var(--color-border, #334155)" strokeWidth="1.5" />
-
-      {/* Balance ring (50%) */}
       <polygon points={toPolygon(balanceVerts)}
         fill="none" stroke="var(--color-border, #334155)"
         strokeWidth="1" strokeDasharray="4 3" />
-
-      {/* User polygon */}
       <polygon points={toPolygon(userVerts)}
         fill="url(#pgFill)" stroke={firstColor} strokeWidth="2" />
-
-      {/* Labels */}
-      {AXES.map((a) => {
+      {AXES.map((a, i) => {
         const [lx, ly] = ptAt(LABEL_R, a.angleDeg);
-        const anchor = textAnchor(a.angleDeg);
         return (
           <text key={a.id} x={lx.toFixed(2)} y={ly.toFixed(2)}
-            textAnchor={anchor} dominantBaseline="middle"
+            textAnchor={textAnchor(a.angleDeg)} dominantBaseline="middle"
             fontSize="11" fill="var(--color-text-muted, #94a3b8)" fontFamily="inherit">
-            {a.id}
+            {labels?.[i] ?? a.id}
           </text>
         );
       })}
     </svg>
   );
 }
+
+// ── Dimension SVG icons ───────────────────────────────────────────────────────
+
+const DIM_ICONS = {
+  energy: ({ color }) => (
+    <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="18" cy="18" r="6" fill={color} opacity="0.9"/>
+      {[0,45,90,135,180,225,270,315].map((deg, i) => {
+        const a = deg * Math.PI / 180;
+        const x1 = 18 + 9  * Math.cos(a); const y1 = 18 + 9  * Math.sin(a);
+        const x2 = 18 + 14 * Math.cos(a); const y2 = 18 + 14 * Math.sin(a);
+        return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke={color} strokeWidth="2" strokeLinecap="round"/>;
+      })}
+    </svg>
+  ),
+  mind: ({ color }) => (
+    <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {[4,11,18,25].map((y, i) => (
+        <rect key={i} x={i % 2 === 0 ? 6 : 10} y={y} width={i % 2 === 0 ? 24 : 16} height="4" rx="2" fill={color} opacity={0.4 + i * 0.18}/>
+      ))}
+    </svg>
+  ),
+  relationships: ({ color }) => (
+    <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="13" cy="18" r="9" fill={color} opacity="0.35" stroke={color} strokeWidth="1.5"/>
+      <circle cx="23" cy="18" r="9" fill={color} opacity="0.35" stroke={color} strokeWidth="1.5"/>
+    </svg>
+  ),
+  drive: ({ color }) => (
+    <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8 28 L18 8 L28 28" stroke={color} strokeWidth="2" strokeLinejoin="round" fill="none"/>
+      <path d="M12 22 L18 8 L24 22" fill={color} opacity="0.35"/>
+      <circle cx="18" cy="8" r="3" fill={color}/>
+    </svg>
+  ),
+  resilience: ({ color }) => (
+    <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M18 4 L32 10 V18 C32 25 25 30 18 32 C11 30 4 25 4 18 V10 Z" fill={color} opacity="0.2" stroke={color} strokeWidth="1.5" strokeLinejoin="round"/>
+      <path d="M12 18 L16 22 L24 14" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  ),
+};
 
 // ── Source badge display names ────────────────────────────────────────────────
 
@@ -119,6 +146,7 @@ export default function SynthesisReport({ storedResults, onBack, readOnly }) {
   const { completedModels, constellation, dimensions } = synthesis;
   const famous = getSynthesisFamous(dimensions);
   const initials = famous.name.split(' ').map(w => w[0]).slice(0, 2).join('');
+  const pentagonLabels = AXES.map(a => t(`synthesis_section_${a.id}`, lang));
   const totalModels = 6;
 
   return (
@@ -162,7 +190,7 @@ export default function SynthesisReport({ storedResults, onBack, readOnly }) {
       <div className={styles.famousBanner}>
         <div className={styles.famousAvatar}>{initials}</div>
         <div className={styles.famousBody}>
-          <p className={styles.famousEyebrow}>Your profile echoes</p>
+          <p className={styles.famousEyebrow}>{t('synthesis_echoes', lang)}</p>
           <p className={styles.famousName}>{famous.name}</p>
           <p className={styles.famousRole}>{famous.role}</p>
           {famous.quote && <p className={styles.famousQuote}>"{famous.quote}"</p>}
@@ -171,7 +199,7 @@ export default function SynthesisReport({ storedResults, onBack, readOnly }) {
 
       {/* Pentagon chart */}
       <div className={styles.chartWrap}>
-        <PentagonChart dimensions={dimensions} />
+        <PentagonChart dimensions={dimensions} labels={pentagonLabels} />
       </div>
 
       {/* Insight cards */}
@@ -180,9 +208,16 @@ export default function SynthesisReport({ storedResults, onBack, readOnly }) {
           <div key={dim.id} className={styles.card}>
             <div className={styles.cardAccent} style={{ background: dim.accentColor }} />
             <div className={styles.cardBody}>
-              <p className={styles.cardDimLabel}>
-                {t(`synthesis_section_${dim.id}`, lang)}
-              </p>
+              <div className={styles.cardTop}>
+                <p className={styles.cardDimLabel}>
+                  {t(`synthesis_section_${dim.id}`, lang)}
+                </p>
+                {DIM_ICONS[dim.id] && (
+                  <div className={styles.cardIcon}>
+                    {DIM_ICONS[dim.id]({ color: dim.accentColor })}
+                  </div>
+                )}
+              </div>
               {dim.archetype ? (
                 <>
                   <p className={styles.cardArchetypeLabel}>{dim.archetype.label}</p>
