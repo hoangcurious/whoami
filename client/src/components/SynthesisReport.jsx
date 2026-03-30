@@ -127,6 +127,38 @@ const DIM_ICONS = {
   ),
 };
 
+// ── Mini synthesis SVG (illustrates the user's pentagon shape) ────────────────
+
+function SynthesisSvg({ dimensions }) {
+  const CX2 = 36, CY2 = 36, R2 = 27;
+  const dimMap = Object.fromEntries((dimensions || []).map(d => [d.id, d]));
+  const guideVerts = AXES.map(a => {
+    const ang = a.angleDeg * Math.PI / 180;
+    return [CX2 + R2 * Math.cos(ang), CY2 + R2 * Math.sin(ang)];
+  });
+  const userVerts = AXES.map(a => {
+    const dim = dimMap[a.id];
+    const frac = ((dim?.score ?? 50) / 100);
+    const ang = a.angleDeg * Math.PI / 180;
+    return [CX2 + R2 * frac * Math.cos(ang), CY2 + R2 * frac * Math.sin(ang)];
+  });
+  const toPoints = pts => pts.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' ');
+  return (
+    <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points={toPoints(guideVerts)}
+        fill="none" stroke="currentColor" strokeWidth="1" opacity="0.15" />
+      <polygon points={toPoints(userVerts)}
+        fill="currentColor" fillOpacity="0.22" stroke="currentColor" strokeWidth="1.5" />
+      {AXES.map((a, i) => {
+        const dim = dimMap[a.id];
+        const [x, y] = userVerts[i];
+        return <circle key={a.id} cx={x.toFixed(1)} cy={y.toFixed(1)} r="4"
+          fill={dim?.accentColor || 'currentColor'} opacity="0.95" />;
+      })}
+    </svg>
+  );
+}
+
 // ── Source badge display names ────────────────────────────────────────────────
 
 const SOURCE_NAMES = {
@@ -149,6 +181,15 @@ export default function SynthesisReport({ storedResults, onBack, readOnly }) {
   const pentagonLabels = AXES.map(a => t(`synthesis_section_${a.id}`, lang));
   const totalModels = 6;
 
+  // Composite hero title: "The Reflective Visionary"
+  const energyDim = dimensions.find(d => d.id === 'energy');
+  const mindDim   = dimensions.find(d => d.id === 'mind');
+  const heroColor = energyDim?.accentColor || '#60a5fa';
+  const energyLabel = energyDim?.archetype?.label || t('synthesis_title', lang);
+  const mindWord    = mindDim?.archetype?.label?.replace(/^The /, '') || '';
+  const heroTitle   = mindWord ? `${energyLabel} ${mindWord}` : energyLabel;
+  const heroTagline = energyDim?.archetype?.tagline || '';
+
   return (
     <div className={styles.page}>
       {/* Back / CTA */}
@@ -167,9 +208,38 @@ export default function SynthesisReport({ storedResults, onBack, readOnly }) {
         )}
       </div>
 
-      {/* Header */}
+      {/* Badge */}
       <div className={styles.badge}>{t('synthesis_badge', lang)}</div>
-      <h1 className={styles.title}>{t('synthesis_title', lang)}</h1>
+
+      {/* Hero card */}
+      <div className={styles.hero} style={{ '--hero-color': heroColor, '--hero-color-alpha': `${heroColor}22` }}>
+        <div className={styles.heroTop}>
+          <div className={styles.heroText}>
+            <h1 className={styles.heroTitle}>{heroTitle}</h1>
+            {heroTagline && <p className={styles.heroTagline}>{heroTagline}</p>}
+          </div>
+          <div className={styles.heroIllustration}>
+            <SynthesisSvg dimensions={dimensions} />
+          </div>
+        </div>
+
+        {/* Famous person chip */}
+        <div className={styles.famousChip}>
+          <div className={styles.famousChipAvatar}>{initials}</div>
+          <span className={styles.famousChipText}>
+            {t('synthesis_echoes', lang)}:{' '}
+            <strong className={styles.famousChipName}>{famous.name}</strong>
+            {' · '}{famous.role}
+          </span>
+        </div>
+
+        {/* Quote */}
+        {famous.quote && (
+          <p className={styles.famousQuote}>"{famous.quote}"</p>
+        )}
+      </div>
+
+      {/* Subtitle */}
       <p className={styles.subtitle}>
         {t('synthesis_subtitle', lang, { count: completedModels.length })}
       </p>
@@ -185,17 +255,6 @@ export default function SynthesisReport({ storedResults, onBack, readOnly }) {
           ))}
         </div>
       )}
-
-      {/* Famous person banner */}
-      <div className={styles.famousBanner}>
-        <div className={styles.famousAvatar}>{initials}</div>
-        <div className={styles.famousBody}>
-          <p className={styles.famousEyebrow}>{t('synthesis_echoes', lang)}</p>
-          <p className={styles.famousName}>{famous.name}</p>
-          <p className={styles.famousRole}>{famous.role}</p>
-          {famous.quote && <p className={styles.famousQuote}>"{famous.quote}"</p>}
-        </div>
-      </div>
 
       {/* Pentagon chart */}
       <div className={styles.chartWrap}>
