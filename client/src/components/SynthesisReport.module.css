@@ -156,13 +156,27 @@
   flex: 1;
 }
 
+.cardTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 0.3rem;
+}
+
+.cardIcon {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+
 .cardDimLabel {
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-text-muted);
-  margin: 0 0 0.3rem;
+  margin: 0;
 }
 
 .cardArchetypeLabel {
