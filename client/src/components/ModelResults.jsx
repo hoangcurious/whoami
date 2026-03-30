@@ -1,5 +1,6 @@
 import { useLang } from '../i18n/LangContext';
 import { t } from '../i18n/translations';
+import ShareButton from './ShareButton';
 import styles from './ModelResults.module.css';
 
 /**
@@ -13,7 +14,7 @@ import styles from './ModelResults.module.css';
  *   onBack     – () => void
  *   onRetake   – () => void
  */
-export default function ModelResults({ model, ResultCard, results, onBack, onRetake }) {
+export default function ModelResults({ model, ResultCard, results, onBack, onRetake, readOnly }) {
   const { lang } = useLang();
   const id = model.id;
 
@@ -31,12 +32,21 @@ export default function ModelResults({ model, ResultCard, results, onBack, onRet
         <div className={styles.footer}>
           <p className={styles.footerNote}>{t(`model_${id}_footer_note`, lang)}</p>
           <div className={styles.footerActions}>
-            <button className="btn btn-ghost" onClick={onRetake}>
-              {t('retake', lang)}
-            </button>
-            <button className="btn btn-primary" onClick={onBack}>
-              {t('back_home', lang)}
-            </button>
+            {readOnly ? (
+              <button className="btn btn-primary" onClick={onBack}>
+                {t('share_readonly_cta', lang)}
+              </button>
+            ) : (
+              <>
+                <ShareButton modelId={id} data={results} />
+                <button className="btn btn-ghost" onClick={onRetake}>
+                  {t('retake', lang)}
+                </button>
+                <button className="btn btn-primary" onClick={onBack}>
+                  {t('back_home', lang)}
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>

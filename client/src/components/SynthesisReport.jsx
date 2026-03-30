@@ -1,6 +1,7 @@
 import { useLang } from '../i18n/LangContext';
 import { t } from '../i18n/translations';
 import { generateSynthesis } from '../lib/synthesize';
+import ShareButton from './ShareButton';
 import styles from './SynthesisReport.module.css';
 
 // ── Pentagon chart ────────────────────────────────────────────────────────────
@@ -111,7 +112,7 @@ const SOURCE_NAMES = {
 
 // ── Main component ────────────────────────────────────────────────────────────
 
-export default function SynthesisReport({ storedResults, onBack }) {
+export default function SynthesisReport({ storedResults, onBack, readOnly }) {
   const { lang } = useLang();
   const synthesis = generateSynthesis(storedResults, lang);
   const { completedModels, constellation, dimensions } = synthesis;
@@ -119,11 +120,20 @@ export default function SynthesisReport({ storedResults, onBack }) {
 
   return (
     <div className={styles.page}>
-      {/* Back */}
-      <div style={{ marginBottom: '1.5rem' }}>
-        <button className="btn btn-ghost" onClick={onBack}>
-          {t('back_home', lang)}
-        </button>
+      {/* Back / CTA */}
+      <div style={{ marginBottom: '1.5rem', display: 'flex', gap: '0.75rem' }}>
+        {readOnly ? (
+          <button className="btn btn-primary" onClick={onBack}>
+            {t('share_readonly_cta', lang)}
+          </button>
+        ) : (
+          <>
+            <button className="btn btn-ghost" onClick={onBack}>
+              {t('back_home', lang)}
+            </button>
+            <ShareButton modelId="synthesis" data={storedResults} />
+          </>
+        )}
       </div>
 
       {/* Header */}
