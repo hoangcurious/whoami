@@ -9,6 +9,7 @@ import QuizPage from './components/QuizPage';
 import MbtiQuizPage from './components/MbtiQuizPage';
 import Results from './components/Results';
 import ModelResults from './components/ModelResults';
+import SynthesisReport from './components/SynthesisReport';
 import MbtiResultCard from './components/MbtiResultCard';
 import EnneagramResultCard from './components/EnneagramResultCard';
 import DiscResultCard from './components/DiscResultCard';
@@ -177,8 +178,15 @@ export default function App() {
       {screen === 'home' && (
         <HomeScreen
           storedResults={storedResults}
-          onStart={(modelId) => setScreen(modelId)}
-          onViewResults={(modelId) => setScreen(`${modelId}_results`)}
+          onStart={(modelId) => setScreen(modelId === 'synthesis' ? 'synthesis' : modelId)}
+          onViewResults={(modelId) => setScreen(modelId === 'synthesis' ? 'synthesis' : `${modelId}_results`)}
+        />
+      )}
+
+      {screen === 'synthesis' && (
+        <SynthesisReport
+          storedResults={storedResults}
+          onBack={() => setScreen('home')}
         />
       )}
 

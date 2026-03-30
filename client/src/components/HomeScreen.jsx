@@ -1,6 +1,7 @@
 import { useLang } from '../i18n/LangContext';
 import { t } from '../i18n/translations';
 import { AB_MODELS, BF_MODEL } from '../config/models';
+import { generateSynthesis, SYNTHESIS_MIN_MODELS } from '../lib/synthesize';
 import styles from './HomeScreen.module.css';
 
 const ALL_MODELS = [BF_MODEL, ...AB_MODELS];
@@ -79,6 +80,52 @@ function ModelCard({ model, result, onStart, onViewResults, lang }) {
   );
 }
 
+function SynthesisCard({ storedResults, onStart, onViewResults, lang }) {
+  const synthesis = generateSynthesis(storedResults, lang);
+  const { completedModels, hasEnoughData, constellation } = synthesis;
+  const remaining = SYNTHESIS_MIN_MODELS - completedModels.length;
+
+  if (!hasEnoughData) {
+    return (
+      <div className={`${styles.synthesisCard} ${styles.locked}`}>
+        <div className={styles.synthesisCardLeft}>
+          <span className={styles.synthesisIcon}>🔒</span>
+          <div>
+            <p className={styles.synthesisCardTitle}>{t('synthesis_card_title', lang)}</p>
+            <p className={styles.synthesisCardDesc}>{t('synthesis_card_desc', lang)}</p>
+            <p className={styles.lockedMsg}>{t('synthesis_card_locked', lang, { n: remaining })}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className={styles.synthesisCard}>
+      <div className={styles.synthesisCardLeft}>
+        <span className={styles.synthesisIcon}>✦</span>
+        <div>
+          <p className={styles.synthesisCardTitle}>{t('synthesis_card_title', lang)}</p>
+          <p className={styles.synthesisCardDesc}>{t('synthesis_card_desc', lang)}</p>
+          {constellation.length > 0 && (
+            <div className={styles.synthesisChips}>
+              {constellation.map(item => (
+                <span key={item.id} className={styles.synthesisChip}
+                  style={{ color: item.color, borderColor: item.color }}>
+                  {item.label}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+      <button className="btn btn-primary" onClick={() => onViewResults('synthesis')}>
+        {t('synthesis_card_view', lang)}
+      </button>
+    </div>
+  );
+}
+
 export default function HomeScreen({ storedResults, onStart, onViewResults }) {
   const { lang } = useLang();
 
@@ -100,6 +147,12 @@ export default function HomeScreen({ storedResults, onStart, onViewResults }) {
               lang={lang}
             />
           ))}
+          <SynthesisCard
+            storedResults={storedResults}
+            onStart={onStart}
+            onViewResults={onViewResults}
+            lang={lang}
+          />
         </div>
 
         <div className={styles.meta}>

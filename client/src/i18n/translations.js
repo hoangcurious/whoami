@@ -133,6 +133,23 @@ const translations = {
 
     // ── Lang toggle ───────────────────────────────────────────────────────
     lang_label: 'VI',
+
+    // ── Synthesis ─────────────────────────────────────────────────────────
+    synthesis_badge: 'Integrated Report',
+    synthesis_title: 'Your Full Profile',
+    synthesis_subtitle: 'Synthesized from {count} completed assessments',
+    synthesis_card_title: 'Full Profile',
+    synthesis_card_desc: 'A consolidated analysis synthesized from all your completed assessments.',
+    synthesis_card_locked: 'Complete {n} more test(s) to unlock',
+    synthesis_card_view: 'View Full Profile →',
+    synthesis_section_energy: 'Social Energy',
+    synthesis_section_mind: 'Cognitive Style',
+    synthesis_section_relationships: 'Relationships',
+    synthesis_section_drive: 'Core Motivation',
+    synthesis_section_resilience: 'Emotional Resilience',
+    synthesis_sources: 'Sources',
+    synthesis_footer: '{completed} of {total} assessments complete',
+    synthesis_complete_more: 'Complete more assessments to enrich this report.',
   },
 
   vi: {
@@ -269,6 +286,23 @@ const translations = {
 
     // ── Lang toggle ───────────────────────────────────────────────────────
     lang_label: 'EN',
+
+    // ── Synthesis ─────────────────────────────────────────────────────────
+    synthesis_badge: 'Báo cáo Tổng hợp',
+    synthesis_title: 'Hồ sơ Đầy đủ của Bạn',
+    synthesis_subtitle: 'Tổng hợp từ {count} bài đánh giá đã hoàn thành',
+    synthesis_card_title: 'Hồ sơ Đầy đủ',
+    synthesis_card_desc: 'Phân tích toàn diện được tổng hợp từ tất cả các bài đánh giá của bạn.',
+    synthesis_card_locked: 'Hoàn thành thêm {n} bài kiểm tra để mở khóa',
+    synthesis_card_view: 'Xem Hồ sơ Đầy đủ →',
+    synthesis_section_energy: 'Năng lượng Xã hội',
+    synthesis_section_mind: 'Phong cách Tư duy',
+    synthesis_section_relationships: 'Các mối Quan hệ',
+    synthesis_section_drive: 'Động lực Cốt lõi',
+    synthesis_section_resilience: 'Khả năng Phục hồi Cảm xúc',
+    synthesis_sources: 'Nguồn',
+    synthesis_footer: '{completed} trong {total} bài đánh giá đã hoàn thành',
+    synthesis_complete_more: 'Hoàn thành thêm các bài đánh giá để làm phong phú báo cáo này.',
   },
 };
 
