@@ -8,11 +8,12 @@ export default function QuestionCard({ question, index, value, onChange }) {
   const { lang } = useLang();
   const labels = LIKERT_KEYS.map((key) => t(key, lang));
 
+  const labelId = `q-label-${question.id}`;
   return (
-    <fieldset className={styles.card}>
-      <legend className={styles.questionText}>
+    <div className={styles.card} role="group" aria-labelledby={labelId}>
+      <p id={labelId} className={styles.questionText}>
         <span className={styles.index}>{index}.</span> {question.text}
-      </legend>
+      </p>
       <div className={styles.options}>
         {[1, 2, 3, 4, 5].map((v) => (
           <label
@@ -32,6 +33,6 @@ export default function QuestionCard({ question, index, value, onChange }) {
           </label>
         ))}
       </div>
-    </fieldset>
+    </div>
   );
 }
