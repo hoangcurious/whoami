@@ -50,4 +50,28 @@ export const FAMOUS = {
     time:    { name: 'Barack Obama',    role: 'US President' },
     touch:   { name: 'Dwayne Johnson',  role: 'Actor & Entrepreneur' },
   },
+  // Synthesis: keyed by `${energyBucket}_${driveBucket}` (each 0|1|2)
+  // 0=low pole, 1=balanced, 2=high pole
+  synthesis: {
+    '0_0': { name: 'Mahatma Gandhi',     role: 'Peace Activist',          quote: 'Be the change you wish to see in the world.' },
+    '0_1': { name: 'J.R.R. Tolkien',     role: 'Author',                  quote: 'Not all those who wander are lost.' },
+    '0_2': { name: 'Isaac Newton',        role: 'Physicist & Mathematician', quote: 'If I have seen further, it is by standing on the shoulders of giants.' },
+    '1_0': { name: 'Princess Diana',     role: 'Humanitarian',            quote: 'Carry out a random act of kindness, with no expectation of reward.' },
+    '1_1': { name: 'Barack Obama',       role: 'US President',            quote: 'Change will not come if we wait for some other person.' },
+    '1_2': { name: 'Steve Jobs',         role: 'Entrepreneur',            quote: 'The only way to do great work is to love what you do.' },
+    '2_0': { name: 'Oprah Winfrey',      role: 'Media Executive',         quote: 'The biggest adventure you can take is to live the life of your dreams.' },
+    '2_1': { name: 'Robin Williams',     role: 'Actor & Comedian',        quote: 'You are only given a little spark of madness. You mustn\'t lose it.' },
+    '2_2': { name: 'Winston Churchill',  role: 'Prime Minister',          quote: 'Success is not final, failure is not fatal: it is the courage to continue that counts.' },
+  },
 };
+
+// Returns the famous person for a synthesis result based on energy + drive dimensions.
+export function getSynthesisFamous(dimensions) {
+  const energy = dimensions?.find(d => d.id === 'energy');
+  const drive  = dimensions?.find(d => d.id === 'drive');
+  const eB = energy?.bucket ?? 1;
+  const dB = drive?.bucket  ?? 1;
+  const key = `${eB}_${dB}`;
+  return FAMOUS.synthesis[key] || FAMOUS.synthesis['1_1'];
+}
+

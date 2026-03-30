@@ -1,6 +1,7 @@
 import { useLang } from '../i18n/LangContext';
 import { t } from '../i18n/translations';
 import { generateSynthesis } from '../lib/synthesize';
+import { getSynthesisFamous } from '../data/famousPersons';
 import ShareButton from './ShareButton';
 import styles from './SynthesisReport.module.css';
 
@@ -116,6 +117,8 @@ export default function SynthesisReport({ storedResults, onBack, readOnly }) {
   const { lang } = useLang();
   const synthesis = generateSynthesis(storedResults, lang);
   const { completedModels, constellation, dimensions } = synthesis;
+  const famous = getSynthesisFamous(dimensions);
+  const initials = famous.name.split(' ').map(w => w[0]).slice(0, 2).join('');
   const totalModels = 6;
 
   return (
@@ -154,6 +157,17 @@ export default function SynthesisReport({ storedResults, onBack, readOnly }) {
           ))}
         </div>
       )}
+
+      {/* Famous person banner */}
+      <div className={styles.famousBanner}>
+        <div className={styles.famousAvatar}>{initials}</div>
+        <div className={styles.famousBody}>
+          <p className={styles.famousEyebrow}>Your profile echoes</p>
+          <p className={styles.famousName}>{famous.name}</p>
+          <p className={styles.famousRole}>{famous.role}</p>
+          {famous.quote && <p className={styles.famousQuote}>"{famous.quote}"</p>}
+        </div>
+      </div>
 
       {/* Pentagon chart */}
       <div className={styles.chartWrap}>
