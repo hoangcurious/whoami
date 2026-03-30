@@ -167,6 +167,10 @@ export default function App() {
     return r;
   });
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [screen]);
+
   // Parse share URL on mount
   useEffect(() => {
     const params = parseShareParams();
