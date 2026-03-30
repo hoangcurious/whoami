@@ -120,9 +120,11 @@ export default function SynthesisReport({ storedResults, onBack }) {
   return (
     <div className={styles.page}>
       {/* Back */}
-      <button className="btn btn-ghost" onClick={onBack} style={{ marginBottom: '1.5rem' }}>
-        {t('back_home', lang)}
-      </button>
+      <div style={{ marginBottom: '1.5rem' }}>
+        <button className="btn btn-ghost" onClick={onBack}>
+          {t('back_home', lang)}
+        </button>
+      </div>
 
       {/* Header */}
       <div className={styles.badge}>{t('synthesis_badge', lang)}</div>

@@ -117,11 +117,11 @@ function SynthesisCard({ storedResults, onStart, onViewResults, lang }) {
               ))}
             </div>
           )}
+          <button className="btn btn-primary" style={{ marginTop: '1rem' }} onClick={() => onViewResults('synthesis')}>
+            {t('synthesis_card_view', lang)}
+          </button>
         </div>
       </div>
-      <button className="btn btn-primary" onClick={() => onViewResults('synthesis')}>
-        {t('synthesis_card_view', lang)}
-      </button>
     </div>
   );
 }
