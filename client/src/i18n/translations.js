@@ -252,8 +252,8 @@ const translations = {
     hint: 'Trả lời tất cả câu hỏi trên trang này để tiếp tục.',
     back: '← Quay lại',
     next: 'Tiếp →',
-    submit: 'Nộp bài →',
-    scoring: 'Đang chấm điểm…',
+    submit: 'Xem kết quả →',
+    scoring: 'Đang xử lý…',
     mbti_quiz_label: 'MBTI',
     mbti_instruction: 'Với mỗi câu hỏi, chọn phương án cảm thấy tự nhiên nhất — hãy tin vào trực giác đầu tiên.',
 
