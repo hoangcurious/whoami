@@ -154,6 +154,7 @@ const translations = {
     // ── Share ─────────────────────────────────────────────────────────────
     share_copy: 'Share results',
     share_copied: 'Link copied!',
+    share_og_title: 'My personality profile — whoami',
     share_readonly_cta: 'Take this quiz →',
     synthesis_echoes: 'Your profile echoes',
   },
@@ -251,8 +252,8 @@ const translations = {
     hint: 'Trả lời tất cả câu hỏi trên trang này để tiếp tục.',
     back: '← Quay lại',
     next: 'Tiếp →',
-    submit: 'Nộp bài →',
-    scoring: 'Đang chấm điểm…',
+    submit: 'Xem kết quả →',
+    scoring: 'Đang xử lý…',
     mbti_quiz_label: 'MBTI',
     mbti_instruction: 'Với mỗi câu hỏi, chọn phương án cảm thấy tự nhiên nhất — hãy tin vào trực giác đầu tiên.',
 
@@ -313,6 +314,7 @@ const translations = {
     // ── Share ─────────────────────────────────────────────────────────────
     share_copy: 'Chia sẻ kết quả',
     share_copied: 'Đã sao chép!',
+    share_og_title: 'Hồ sơ tính cách của tôi — whoami',
     share_readonly_cta: 'Làm bài kiểm tra này →',
     synthesis_echoes: 'Hồ sơ của bạn gợi nhớ đến',
   },
