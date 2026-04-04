@@ -5,9 +5,9 @@ import { FAMOUS } from '../data/famousPersons';
 import styles from './EnneagramResultCard.module.css';
 
 const TYPE_COLORS = {
-  1: '#f87171', 2: '#fb923c', 3: '#fbbf24',
-  4: '#a78bfa', 5: '#60a5fa', 6: '#34d399',
-  7: '#4ade80', 8: '#f472b6', 9: '#94a3b8',
+  1: '#FF3D3D', 2: '#FF6B00', 3: '#FFD600',
+  4: '#B413EC', 5: '#2979FF', 6: '#00C896',
+  7: '#00E676', 8: '#F50057', 9: '#546E7A',
 };
 
 export default function EnneagramResultCard({ results }) {
@@ -48,7 +48,7 @@ export default function EnneagramResultCard({ results }) {
                       className={styles.barFill}
                       style={{
                         width: `${pct}%`,
-                        background: isActive ? TYPE_COLORS[Number(num)] : 'var(--color-border)',
+                        background: isActive ? TYPE_COLORS[Number(num)] : 'var(--color-surface-2)',
                         opacity: isActive ? 1 : 0.6,
                       }}
                     />
