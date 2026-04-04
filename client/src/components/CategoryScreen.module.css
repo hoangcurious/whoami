@@ -1,0 +1,230 @@
+.wrapper {
+  min-height: 100vh;
+  padding: 3rem 1.5rem 5rem;
+}
+
+.inner {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.backBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  margin-bottom: 2rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: color 0.15s;
+}
+
+.backBtn:hover {
+  color: var(--color-text);
+}
+
+.header {
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: var(--color-text-muted);
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 520px;
+}
+
+/* 3-column grid, 2-col tablet, 1-col mobile */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  text-align: left;
+}
+
+@media (max-width: 720px) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Test card ─────────────────────────────────────────────────────────────── */
+
+.quizCard {
+  background: var(--color-surface);
+  border: var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.375rem;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.quizCard:hover {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.quizCard.done {
+  background: var(--color-surface-2);
+}
+
+.cardTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 0.875rem;
+  min-height: 2.5rem;
+}
+
+.cardIcon {
+  display: flex;
+  align-items: center;
+  gap: 0.05rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.iconLetter    { display: inline-block; }
+.iconLetterBig { font-size: 2rem; font-weight: 900; line-height: 1; }
+.iconLetterSm  { font-size: 0.85rem; font-weight: 800; letter-spacing: 0.02em; }
+.iconText      { font-size: 0.95rem; font-weight: 800; letter-spacing: 0.04em; }
+
+.doneBadge {
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: #000;
+  color: #FFD600;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+.cardTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+.cardDesc {
+  font-size: 0.825rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+  flex: 1;
+}
+
+.cardMeta {
+  display: flex;
+  gap: 0.45rem;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin-bottom: 1rem;
+}
+
+.startBtn {
+  width: 100%;
+  justify-content: center;
+}
+
+.doneActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.doneActions :global(.btn) {
+  flex: 1;
+  text-align: center;
+  justify-content: center;
+  font-size: 0.82rem;
+  padding: 0.45rem 0.5rem;
+}
+
+/* ── Synthesis card ────────────────────────────────────────────────────────── */
+
+.synthesisCard {
+  grid-column: 1 / -1;
+  background: var(--color-accent);
+  border-radius: var(--radius);
+  border: var(--border);
+  box-shadow: var(--shadow);
+  padding: 1.5rem 1.75rem;
+  text-align: left;
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.synthesisCard:hover {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.synthesisCard.locked {
+  background: var(--color-surface-2);
+  cursor: default;
+}
+
+.synthesisCard.locked:hover {
+  transform: none;
+  box-shadow: var(--shadow);
+}
+
+.synthesisCardLeft {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.synthesisIcon { font-size: 1.75rem; flex-shrink: 0; line-height: 1; }
+.synthesisCardTitle { font-size: 1rem; font-weight: 800; margin: 0 0 0.2rem; }
+.synthesisCardDesc  { font-size: 0.82rem; color: var(--color-text-muted); margin: 0 0 0.6rem; line-height: 1.45; }
+
+.synthesisChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.synthesisChip {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-sm);
+  border: 2px solid;
+  letter-spacing: 0.04em;
+}
+
+.lockedMsg {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}

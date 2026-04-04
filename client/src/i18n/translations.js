@@ -1,16 +1,25 @@
 const translations = {
   en: {
     // ── Home screen ────────────────────────────────────────────────────────
-    home_badge: 'Personality Assessment',
+    home_badge: 'Self-Assessment',
     title: 'Who Am I?',
-    home_subtitle: 'Six independent assessments. Six complementary perspectives on who you are.',
-    home_independent: 'Six separate tests',
+    home_subtitle: 'Structured assessments across personality and career. Pick a category to begin.',
+    home_independent: 'No sign-up required',
     start_quiz: 'Start →',
     completed: 'Completed',
     retake: 'Retake',
     view_results: 'View Results',
     back_home: 'Back to Home',
     meta_signup: 'No sign-up required',
+
+    // ── Category cards (home page) ─────────────────────────────────────────
+    category_personality_desc: 'Six foundational tests covering your character, relationships, and inner world.',
+    category_work_desc: 'Career-focused assessments to understand how you think and work as a professional.',
+    category_tests: 'tests',
+    category_done: 'done',
+    category_explore: 'Explore',
+    category_back: '← All categories',
+    category_all_done: 'All done',
 
     // ── Model cards — Big Five ─────────────────────────────────────────────
     model_bigfive_title: 'Big Five (OCEAN)',
@@ -189,16 +198,25 @@ const translations = {
 
   vi: {
     // ── Home screen ────────────────────────────────────────────────────────
-    home_badge: 'Đánh giá tính cách',
+    home_badge: 'Tự đánh giá',
     title: 'Tôi là ai?',
-    home_subtitle: 'Sáu bài kiểm tra độc lập. Sáu góc nhìn bổ sung về con người bạn.',
-    home_independent: 'Sáu bài kiểm tra riêng biệt',
+    home_subtitle: 'Các bài kiểm tra có cấu trúc về tính cách và sự nghiệp. Chọn một danh mục để bắt đầu.',
+    home_independent: 'Không cần đăng ký',
     start_quiz: 'Bắt đầu →',
     completed: 'Đã hoàn thành',
     retake: 'Làm lại',
     view_results: 'Xem kết quả',
     back_home: 'Về trang chủ',
     meta_signup: 'Không cần đăng ký',
+
+    // ── Category cards (home page) ─────────────────────────────────────────
+    category_personality_desc: 'Sáu bài kiểm tra nền tảng về tính cách, các mối quan hệ và thế giới nội tâm.',
+    category_work_desc: 'Các bài đánh giá tập trung vào sự nghiệp để hiểu cách bạn tư duy và làm việc.',
+    category_tests: 'bài kiểm tra',
+    category_done: 'đã hoàn thành',
+    category_explore: 'Khám phá',
+    category_back: '← Tất cả danh mục',
+    category_all_done: 'Hoàn thành',
 
     // ── Model cards — Big Five ─────────────────────────────────────────────
     model_bigfive_title: 'Big Five (OCEAN)',
