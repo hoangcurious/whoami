@@ -5,10 +5,10 @@ import { FAMOUS } from '../data/famousPersons';
 import styles from './DiscResultCard.module.css';
 
 const STYLE_COLORS = {
-  D: '#f87171',
-  I: '#fbbf24',
-  S: '#34d399',
-  C: '#60a5fa',
+  D: '#FF3D3D',
+  I: '#FFD600',
+  S: '#00C896',
+  C: '#2979FF',
 };
 
 const STYLE_ORDER = ['D', 'I', 'S', 'C'];

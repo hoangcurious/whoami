@@ -9,31 +9,31 @@ const DIMENSION_CONFIG = [
   {
     id: 'energy',
     poles: ['Introverted', 'Extraverted'],
-    accentColor: '#60a5fa',
+    accentColor: '#FF9500',
     sources: ['mbti', 'bigfive', 'disc'],
   },
   {
     id: 'mind',
     poles: ['Concrete', 'Abstract'],
-    accentColor: '#a78bfa',
+    accentColor: '#E040FB',
     sources: ['mbti', 'bigfive', 'enneagram'],
   },
   {
     id: 'relationships',
     poles: ['Independent', 'Connected'],
-    accentColor: '#f472b6',
+    accentColor: '#FF6B6B',
     sources: ['attachment', 'bigfive', 'lovelang'],
   },
   {
     id: 'drive',
     poles: ['Harmony', 'Achievement'],
-    accentColor: '#34d399',
+    accentColor: '#00C896',
     sources: ['disc', 'mbti', 'bigfive', 'enneagram'],
   },
   {
     id: 'resilience',
     poles: ['Sensitive', 'Stable'],
-    accentColor: '#fb923c',
+    accentColor: '#2979FF',
     sources: ['bigfive', 'attachment'],
   },
 ];
@@ -335,12 +335,12 @@ const SIGNAL_FNS = {
 // ─── Constellation ────────────────────────────────────────────────────────────
 
 const CONSTELLATION_COLORS = {
-  bigfive: '#60a5fa',
+  bigfive: '#2979FF',
   mbti: 'var(--color-accent)',
-  enneagram: '#a78bfa',
-  disc: '#34d399',
-  attachment: '#f472b6',
-  lovelang: '#fb923c',
+  enneagram: '#E040FB',
+  disc: '#00C896',
+  attachment: '#FF6B6B',
+  lovelang: '#FF9500',
 };
 
 const LOVELANG_SHORT = { words: 'Words', service: 'Service', gifts: 'Gifts', time: 'Time', touch: 'Touch' };

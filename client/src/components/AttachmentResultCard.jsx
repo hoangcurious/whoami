@@ -5,10 +5,10 @@ import { FAMOUS } from '../data/famousPersons';
 import styles from './AttachmentResultCard.module.css';
 
 const STYLE_COLORS = {
-  secure:   '#34d399',
-  anxious:  '#fbbf24',
-  avoidant: '#60a5fa',
-  fearful:  '#f472b6',
+  secure:   '#00C896',
+  anxious:  '#FFD600',
+  avoidant: '#2979FF',
+  fearful:  '#FF6B6B',
 };
 
 const STYLE_ORDER = ['secure', 'anxious', 'avoidant', 'fearful'];

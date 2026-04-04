@@ -12,14 +12,16 @@
 
 .badge {
   display: inline-block;
-  background: rgba(124, 131, 247, 0.12);
-  color: var(--color-accent);
+  background: var(--color-accent);
+  color: #000;
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   padding: 0.3rem 0.85rem;
-  border-radius: 100px;
+  border-radius: var(--radius-sm);
+  border: 2px solid #000;
+  box-shadow: var(--shadow-sm);
   margin-bottom: 1rem;
 }
 
@@ -61,20 +63,23 @@
 
 .quizCard {
   background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  border: var(--border);
   border-radius: var(--radius);
+  box-shadow: var(--shadow);
   padding: 1.375rem;
-  transition: border-color var(--transition);
   display: flex;
   flex-direction: column;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition);
 }
 
 .quizCard:hover {
-  border-color: rgba(124, 131, 247, 0.4);
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-sm);
 }
 
 .quizCard.done {
-  border-color: rgba(124, 131, 247, 0.35);
+  background: var(--color-surface-2);
 }
 
 .cardTop {
@@ -119,13 +124,13 @@
 
 .doneBadge {
   font-size: 0.68rem;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  background: rgba(124, 131, 247, 0.15);
-  color: var(--color-accent);
+  background: #000;
+  color: #FFD600;
   padding: 0.2rem 0.55rem;
-  border-radius: 100px;
+  border-radius: var(--radius-sm);
   white-space: nowrap;
 }
 
@@ -181,21 +186,32 @@
 /* ── Synthesis card (full-width, below grid) ── */
 .synthesisCard {
   grid-column: 1 / -1;
-  background: var(--color-surface);
+  background: var(--color-accent);
   border-radius: var(--radius);
-  border: 1.5px solid rgba(124, 131, 247, 0.35);
-  background: linear-gradient(135deg, rgba(124,131,247,0.06) 0%, rgba(251,146,60,0.04) 100%);
+  border: var(--border);
+  box-shadow: var(--shadow);
   padding: 1.5rem 1.75rem;
   text-align: left;
   display: flex;
   align-items: flex-start;
   gap: 1.5rem;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.synthesisCard:hover {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-sm);
 }
 
 .synthesisCard.locked {
-  opacity: 0.7;
-  border-color: var(--color-border);
-  background: var(--color-surface);
+  background: var(--color-surface-2);
+  cursor: default;
+}
+
+.synthesisCard.locked:hover {
+  transform: none;
+  box-shadow: var(--shadow);
 }
 
 .synthesisCardLeft {
@@ -214,7 +230,7 @@
 
 .synthesisCardTitle {
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: 800;
   margin: 0 0 0.2rem;
   color: var(--color-text);
 }
@@ -236,8 +252,8 @@
   font-size: 0.7rem;
   font-weight: 700;
   padding: 0.2rem 0.55rem;
-  border-radius: 999px;
-  border: 1.5px solid;
+  border-radius: var(--radius-sm);
+  border: 2px solid;
   letter-spacing: 0.04em;
 }
 

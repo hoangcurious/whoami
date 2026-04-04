@@ -9,7 +9,7 @@ This file is read automatically by Claude Code at session start. It documents th
 A multi-model personality assessment web app. Users take up to 6 independent quizzes; results are stored in localStorage per model. No login required.
 
 **Live repo**: `hoangcurious/whoami`
-**Active branch**: `claude/personality-quiz-app-Khy7z`
+**Active branch**: `claude/neubrutalism-redesign-qfQhy`
 
 ---
 
@@ -171,6 +171,68 @@ Model-specific key pattern:
 
 ---
 
+## Design System — Neubrutalism
+
+The app uses a **Neubrutalism** visual style. All future UI work must follow these conventions.
+
+### Core Principles
+- **Light background**: Warm cream `#FFFEF0`, white cards `#FFFFFF`
+- **Thick black borders**: `2px solid #000` everywhere — no soft/translucent borders
+- **Hard box shadows**: `4px 4px 0 #000` (no blur) on cards; `2px 2px 0 #000` on small elements
+- **No gradients**: No `linear-gradient` or `radial-gradient` fills, no gradient text (`-webkit-background-clip`)
+- **No glow effects**: No `::before` radial glow overlays on hero cards
+- **Bold typography**: Headings `font-weight: 800`, hero labels `font-weight: 900`
+- **Flat progress bars**: `border-radius: 0`, black fill, bordered track
+
+### CSS Variables (defined in `client/src/styles/index.css`)
+```css
+--color-bg:      #FFFEF0   /* page background */
+--color-surface: #FFFFFF   /* card backgrounds */
+--color-surface-2: #F5F4E8 /* inset panels */
+--color-border:  #000000   /* all borders */
+--color-text:    #0D0D0D
+--color-text-muted: #444444
+--color-accent:  #FFD600   /* primary yellow */
+--shadow:        4px 4px 0 #000000
+--shadow-sm:     2px 2px 0 #000000
+--border:        2px solid #000000
+--radius:        4px
+--radius-sm:     2px
+```
+
+### Hover Contract (interactive cards and buttons)
+```
+default: box-shadow: 4px 4px 0 #000
+hover:   transform: translate(2px, 2px) + box-shadow: 2px 2px 0 #000
+```
+Apply to: quiz cards, synthesis card, option cards, all `.btn` elements, language toggle.
+Do NOT apply to: static result display cards (read-only).
+
+### Bright Color Palette (model-specific)
+| Variable / Usage | Hex |
+|---|---|
+| `--color-O` (Openness) | `#FF6B6B` coral-red |
+| `--color-C` (Conscientiousness) | `#00C896` vivid teal |
+| `--color-E` (Extraversion) | `#FF9500` orange |
+| `--color-A` (Agreeableness) | `#E040FB` vivid purple |
+| `--color-N` (Neuroticism) | `#2979FF` electric blue |
+| DISC D | `#FF3D3D` |
+| DISC I | `#FFD600` |
+| DISC S | `#00C896` |
+| DISC C | `#2979FF` |
+| Attachment secure | `#00C896` |
+| Attachment anxious | `#FFD600` |
+| Attachment avoidant | `#2979FF` |
+| Attachment fearful | `#FF6B6B` |
+
+### Badges
+All badges use: `background: #FFD600; color: #000; border: 2px solid #000; border-radius: 2px; box-shadow: 2px 2px 0 #000; font-weight: 800; text-transform: uppercase`
+
+### Language Toggle
+Inverted: `background: #000; color: #FFD600` — stands out as a control element.
+
+---
+
 ## Pending Feature: Synthesis Report
 
 A "Full Profile" consolidated report that reads all completed test results and synthesizes them across 5 dimensions:
@@ -198,8 +260,8 @@ Minimum models to unlock: 3.
 
 ## Git Workflow
 
-- Always develop on: `claude/personality-quiz-app-Khy7z`
-- Push: `git push -u origin claude/personality-quiz-app-Khy7z`
+- Always develop on: `claude/neubrutalism-redesign-qfQhy`
+- Push: `git push -u origin claude/neubrutalism-redesign-qfQhy`
 - Do NOT push to main/master without explicit permission
 - Commit messages should be descriptive; end with session URL
 

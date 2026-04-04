@@ -5,11 +5,11 @@ import { FAMOUS } from '../data/famousPersons';
 import styles from './LoveLangResultCard.module.css';
 
 const LANG_COLORS = {
-  words:   '#a78bfa',
-  service: '#34d399',
-  gifts:   '#fb923c',
-  time:    '#60a5fa',
-  touch:   '#f472b6',
+  words:   '#E040FB',
+  service: '#00C896',
+  gifts:   '#FF6B00',
+  time:    '#2979FF',
+  touch:   '#FF6B6B',
 };
 
 const RANK_LABELS = ['1st', '2nd', '3rd', '4th', '5th'];
