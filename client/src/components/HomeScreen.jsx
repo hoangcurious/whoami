@@ -6,81 +6,63 @@ import styles from './HomeScreen.module.css';
 
 const ALL_MODELS = [BF_MODEL, ...AB_MODELS];
 
-function ModelCard({ model, result, onStart, onViewResults, lang }) {
-  const done = !!result;
-  const id = model.id;
+// Metadata for each known category
+const CATEGORY_CONFIG = {
+  personality: { color: '#FFD600', icon: '◈' },
+  work:        { color: '#38bdf8', icon: '</>' },
+};
 
-  // Derive icon display for each model
-  function renderIcon() {
-    if (id === 'bigfive') {
-      return ['O', 'C', 'E', 'A', 'N'].map((l) => (
-        <span key={l} className={styles.iconLetter} style={{ color: `var(--color-${l})` }}>{l}</span>
-      ));
-    }
-    if (id === 'mbti' && done) {
-      return result.mbti.type.split('').map((l, i) => (
-        <span key={i} className={styles.iconLetter} style={{ color: model.color, opacity: 0.5 + i * 0.15 }}>{l}</span>
-      ));
-    }
-    if (id === 'enneagram' && done) {
-      return <span className={styles.iconLetterBig} style={{ color: model.color }}>{result.enneagram.type}</span>;
-    }
-    if (id === 'disc' && done) {
-      return <span className={styles.iconLetterBig} style={{ color: model.color }}>{result.disc.primary}</span>;
-    }
-    if (id === 'attachment' && done) {
-      const style = result.attachment.primary;
-      return <span className={styles.iconLetterBig} style={{ color: model.color }}>{style[0].toUpperCase()}</span>;
-    }
-    if (id === 'lovelang' && done) {
-      const topLang = result.loveLang.ranked[0];
-      return (
-        <span className={styles.iconLetterSm} style={{ color: model.color }}>
-          {t(`lovelang_short_${topLang.lang}`, lang)}
-        </span>
-      );
-    }
-    // Default: show model icon text
-    return (
-      <span className={styles.iconText} style={{ color: model.color }}>
-        {model.icon}
-      </span>
-    );
+function groupByCategory(models) {
+  const groups = {};
+  for (const m of models) {
+    const cat = m.category || 'personality';
+    if (!groups[cat]) groups[cat] = [];
+    groups[cat].push(m);
   }
+  return groups;
+}
+
+function CategoryCard({ categoryId, models, storedResults, onExplore, lang }) {
+  const cfg = CATEGORY_CONFIG[categoryId] || { color: '#FFD600', icon: '◈' };
+  const total = models.length;
+  const completed = models.filter(m => !!storedResults[m.id]).length;
+  const pct = total ? Math.round((completed / total) * 100) : 0;
+  const allDone = completed === total;
 
   return (
-    <div className={`${styles.quizCard} ${done ? styles.done : ''}`}>
-      <div className={styles.cardTop}>
-        <div className={styles.cardIcon}>{renderIcon()}</div>
-        {done && <span className={styles.doneBadge}>{t('completed', lang)}</span>}
-      </div>
-      <h2 className={styles.cardTitle}>{t(`model_${id}_title`, lang)}</h2>
-      <p className={styles.cardDesc}>{t(`model_${id}_desc`, lang)}</p>
-      <div className={styles.cardMeta}>
-        <span>{t(`model_${id}_questions`, lang)}</span>
-        <span>·</span>
-        <span>{t(`model_${id}_time`, lang)}</span>
+    <div className={styles.catCard} onClick={onExplore} role="button" tabIndex={0}
+      onKeyDown={(e) => e.key === 'Enter' && onExplore()}>
+      <div className={styles.catTop}>
+        <span className={styles.catIcon} style={{ color: cfg.color }}>{cfg.icon}</span>
+        <span className={styles.catCount}
+          style={{ background: allDone ? cfg.color : 'var(--color-surface-2)', borderColor: allDone ? '#000' : '#000' }}>
+          {allDone
+            ? t('category_all_done', lang)
+            : `${completed}/${total} ${t('category_done', lang)}`}
+        </span>
       </div>
 
-      {done ? (
-        <div className={styles.doneActions}>
-          <button className="btn btn-ghost" onClick={() => onStart(id)}>
-            {t('retake', lang)}
-          </button>
-          <button className="btn btn-primary" onClick={() => onViewResults(id)}>
-            {t('view_results', lang)}
-          </button>
+      <h2 className={styles.catTitle}>{t(`category_${categoryId}`, lang)}</h2>
+      <p className={styles.catDesc}>{t(`category_${categoryId}_desc`, lang)}</p>
+
+      <div className={styles.catProgress}>
+        <div className={styles.progressTrack}>
+          <div className={styles.progressFill}
+            style={{ width: `${pct}%`, background: cfg.color }} />
         </div>
-      ) : (
-        <button className={`btn btn-primary ${styles.startBtn}`} onClick={() => onStart(id)}>
-          {t('start_quiz', lang)}
+      </div>
+
+      <div className={styles.catFooter}>
+        <span className={styles.catTestCount}>{total} {t('category_tests', lang)}</span>
+        <button className="btn btn-primary" onClick={(e) => { e.stopPropagation(); onExplore(); }}>
+          {t('category_explore', lang)} →
         </button>
-      )}
+      </div>
     </div>
   );
 }
 
-function SynthesisCard({ storedResults, onStart, onViewResults, lang }) {
+function SynthesisCard({ storedResults, onView, lang }) {
   const synthesis = generateSynthesis(storedResults, lang);
   const { completedModels, hasEnoughData, constellation } = synthesis;
   const remaining = SYNTHESIS_MIN_MODELS - completedModels.length;
@@ -88,46 +70,46 @@ function SynthesisCard({ storedResults, onStart, onViewResults, lang }) {
   if (!hasEnoughData) {
     return (
       <div className={`${styles.synthesisCard} ${styles.locked}`}>
-        <div className={styles.synthesisCardLeft}>
-          <span className={styles.synthesisIcon}>🔒</span>
-          <div>
-            <p className={styles.synthesisCardTitle}>{t('synthesis_card_title', lang)}</p>
-            <p className={styles.synthesisCardDesc}>{t('synthesis_card_desc', lang)}</p>
-            <p className={styles.lockedMsg}>{t('synthesis_card_locked', lang, { n: remaining })}</p>
-          </div>
+        <span className={styles.synthesisIcon}>🔒</span>
+        <div className={styles.synthesisBody}>
+          <p className={styles.synthesisTitle}>{t('synthesis_card_title', lang)}</p>
+          <p className={styles.synthesisDesc}>{t('synthesis_card_desc', lang)}</p>
+          <p className={styles.lockedMsg}>{t('synthesis_card_locked', lang, { n: remaining })}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className={styles.synthesisCard}>
-      <div className={styles.synthesisCardLeft}>
-        <span className={styles.synthesisIcon}>✦</span>
-        <div>
-          <p className={styles.synthesisCardTitle}>{t('synthesis_card_title', lang)}</p>
-          <p className={styles.synthesisCardDesc}>{t('synthesis_card_desc', lang)}</p>
-          {constellation.length > 0 && (
-            <div className={styles.synthesisChips}>
-              {constellation.map(item => (
-                <span key={item.id} className={styles.synthesisChip}
-                  style={{ color: item.color, borderColor: item.color }}>
-                  {item.label}
-                </span>
-              ))}
-            </div>
-          )}
-          <button className="btn btn-primary" style={{ marginTop: '1rem' }} onClick={() => onViewResults('synthesis')}>
-            {t('synthesis_card_view', lang)}
-          </button>
-        </div>
+    <div className={styles.synthesisCard} onClick={onView} role="button" tabIndex={0}
+      onKeyDown={(e) => e.key === 'Enter' && onView()}>
+      <span className={styles.synthesisIcon}>✦</span>
+      <div className={styles.synthesisBody}>
+        <p className={styles.synthesisTitle}>{t('synthesis_card_title', lang)}</p>
+        <p className={styles.synthesisDesc}>{t('synthesis_card_desc', lang)}</p>
+        {constellation.length > 0 && (
+          <div className={styles.synthesisChips}>
+            {constellation.map(item => (
+              <span key={item.id} className={styles.synthesisChip}
+                style={{ color: item.color, borderColor: item.color }}>
+                {item.label}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
+      <button className="btn btn-primary" onClick={(e) => { e.stopPropagation(); onView(); }}>
+        {t('synthesis_card_view', lang)}
+      </button>
     </div>
   );
 }
 
-export default function HomeScreen({ storedResults, onStart, onViewResults }) {
+export default function HomeScreen({ storedResults, onCategoryClick, onSynthesisClick }) {
   const { lang } = useLang();
+  const grouped = groupByCategory(ALL_MODELS);
+  const categoryOrder = ['personality', 'work', ...Object.keys(grouped).filter(k => k !== 'personality' && k !== 'work')];
+  const categories = categoryOrder.filter(k => grouped[k]);
 
   return (
     <div className={styles.wrapper}>
@@ -136,29 +118,27 @@ export default function HomeScreen({ storedResults, onStart, onViewResults }) {
         <h1 className={styles.title}>{t('title', lang)}</h1>
         <p className={styles.subtitle}>{t('home_subtitle', lang)}</p>
 
-        <div className={styles.cards}>
-          {ALL_MODELS.map((model) => (
-            <ModelCard
-              key={model.id}
-              model={model}
-              result={storedResults[model.id]}
-              onStart={onStart}
-              onViewResults={onViewResults}
+        <div className={styles.categoryGrid}>
+          {categories.map(catId => (
+            <CategoryCard
+              key={catId}
+              categoryId={catId}
+              models={grouped[catId]}
+              storedResults={storedResults}
+              onExplore={() => onCategoryClick(catId)}
               lang={lang}
             />
           ))}
-          <SynthesisCard
-            storedResults={storedResults}
-            onStart={onStart}
-            onViewResults={onViewResults}
-            lang={lang}
-          />
         </div>
+
+        <SynthesisCard
+          storedResults={storedResults}
+          onView={onSynthesisClick}
+          lang={lang}
+        />
 
         <div className={styles.meta}>
           <span>{t('meta_signup', lang)}</span>
-          <span>·</span>
-          <span>{t('home_independent', lang)}</span>
         </div>
       </div>
     </div>

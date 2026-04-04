@@ -1,16 +1,25 @@
 const translations = {
   en: {
     // ── Home screen ────────────────────────────────────────────────────────
-    home_badge: 'Personality Assessment',
+    home_badge: 'Self-Assessment',
     title: 'Who Am I?',
-    home_subtitle: 'Six independent assessments. Six complementary perspectives on who you are.',
-    home_independent: 'Six separate tests',
+    home_subtitle: 'Structured assessments across personality and career. Pick a category to begin.',
+    home_independent: 'No sign-up required',
     start_quiz: 'Start →',
     completed: 'Completed',
     retake: 'Retake',
     view_results: 'View Results',
     back_home: 'Back to Home',
     meta_signup: 'No sign-up required',
+
+    // ── Category cards (home page) ─────────────────────────────────────────
+    category_personality_desc: 'Six foundational tests covering your character, relationships, and inner world.',
+    category_work_desc: 'Career-focused assessments to understand how you think and work as a professional.',
+    category_tests: 'tests',
+    category_done: 'done',
+    category_explore: 'Explore',
+    category_back: '← All categories',
+    category_all_done: 'All done',
 
     // ── Model cards — Big Five ─────────────────────────────────────────────
     model_bigfive_title: 'Big Five (OCEAN)',
@@ -157,20 +166,57 @@ const translations = {
     share_og_title: 'My personality profile — whoami',
     share_readonly_cta: 'Take this quiz →',
     synthesis_echoes: 'Your profile echoes',
+
+    // ── Developer Type ────────────────────────────────────────────────────────
+    model_devtype_title: 'Developer Type',
+    model_devtype_desc: 'Discover your coding archetype through 24 scenario-based questions.',
+    model_devtype_questions: '24 questions',
+    model_devtype_time: '~5 min',
+    model_devtype_badge: 'Dev Type',
+    model_devtype_results_title: 'Your Developer Type',
+    model_devtype_results_subtitle: 'Based on 24 scenario questions across 6 developer archetypes.',
+    model_devtype_footer_note: "Developer types are archetypes, not fixed identities. Most developers blend multiple styles — this reflects your strongest tendencies.",
+    devtype_profile: 'Archetype breakdown',
+    devtype_secondary: 'Secondary type',
+    devtype_short_ARCH:  'The Architect',
+    devtype_short_CRAFT: 'The Craftsman',
+    devtype_short_HACK:  'The Hacker',
+    devtype_short_EXPL:  'The Explorer',
+    devtype_short_PRAG:  'The Pragmatist',
+    devtype_short_MENT:  'The Mentor',
+    devtype_abbr_ARCH:  'ARCH',
+    devtype_abbr_CRAFT: 'CRAFT',
+    devtype_abbr_HACK:  'HACK',
+    devtype_abbr_EXPL:  'EXPL',
+    devtype_abbr_PRAG:  'PRAG',
+    devtype_abbr_MENT:  'MENT',
+
+    // ── Category headers ──────────────────────────────────────────────────────
+    category_personality: 'Personality',
+    category_work: 'Work & Career',
   },
 
   vi: {
     // ── Home screen ────────────────────────────────────────────────────────
-    home_badge: 'Đánh giá tính cách',
+    home_badge: 'Tự đánh giá',
     title: 'Tôi là ai?',
-    home_subtitle: 'Sáu bài kiểm tra độc lập. Sáu góc nhìn bổ sung về con người bạn.',
-    home_independent: 'Sáu bài kiểm tra riêng biệt',
+    home_subtitle: 'Các bài kiểm tra có cấu trúc về tính cách và sự nghiệp. Chọn một danh mục để bắt đầu.',
+    home_independent: 'Không cần đăng ký',
     start_quiz: 'Bắt đầu →',
     completed: 'Đã hoàn thành',
     retake: 'Làm lại',
     view_results: 'Xem kết quả',
     back_home: 'Về trang chủ',
     meta_signup: 'Không cần đăng ký',
+
+    // ── Category cards (home page) ─────────────────────────────────────────
+    category_personality_desc: 'Sáu bài kiểm tra nền tảng về tính cách, các mối quan hệ và thế giới nội tâm.',
+    category_work_desc: 'Các bài đánh giá tập trung vào sự nghiệp để hiểu cách bạn tư duy và làm việc.',
+    category_tests: 'bài kiểm tra',
+    category_done: 'đã hoàn thành',
+    category_explore: 'Khám phá',
+    category_back: '← Tất cả danh mục',
+    category_all_done: 'Hoàn thành',
 
     // ── Model cards — Big Five ─────────────────────────────────────────────
     model_bigfive_title: 'Big Five (OCEAN)',
@@ -317,6 +363,34 @@ const translations = {
     share_og_title: 'Hồ sơ tính cách của tôi — whoami',
     share_readonly_cta: 'Làm bài kiểm tra này →',
     synthesis_echoes: 'Hồ sơ của bạn gợi nhớ đến',
+
+    // ── Developer Type ────────────────────────────────────────────────────────
+    model_devtype_title: 'Kiểu lập trình viên',
+    model_devtype_desc: 'Khám phá nguyên mẫu lập trình viên của bạn qua 24 câu hỏi tình huống.',
+    model_devtype_questions: '24 câu hỏi',
+    model_devtype_time: '~5 phút',
+    model_devtype_badge: 'Dev Type',
+    model_devtype_results_title: 'Kiểu lập trình viên của bạn',
+    model_devtype_results_subtitle: 'Dựa trên 24 câu hỏi tình huống về 6 nguyên mẫu lập trình viên.',
+    model_devtype_footer_note: 'Kiểu lập trình viên là nguyên mẫu, không phải đặc điểm cố định. Hầu hết lập trình viên kết hợp nhiều phong cách — đây là xu hướng mạnh nhất của bạn.',
+    devtype_profile: 'Phân tích nguyên mẫu',
+    devtype_secondary: 'Kiểu phụ',
+    devtype_short_ARCH:  'Kiến trúc sư',
+    devtype_short_CRAFT: 'Người thợ thủ công',
+    devtype_short_HACK:  'Hacker',
+    devtype_short_EXPL:  'Nhà khám phá',
+    devtype_short_PRAG:  'Người thực dụng',
+    devtype_short_MENT:  'Người hướng dẫn',
+    devtype_abbr_ARCH:  'ARCH',
+    devtype_abbr_CRAFT: 'CRAFT',
+    devtype_abbr_HACK:  'HACK',
+    devtype_abbr_EXPL:  'EXPL',
+    devtype_abbr_PRAG:  'PRAG',
+    devtype_abbr_MENT:  'MENT',
+
+    // ── Category headers ──────────────────────────────────────────────────────
+    category_personality: 'Tính cách',
+    category_work: 'Công việc & Sự nghiệp',
   },
 };
 

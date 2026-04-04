@@ -1,10 +1,12 @@
-import { useState, useEffect, useCallback, Fragment } from 'react';
+import { useState, useEffect } from 'react';
 import { useLang } from './i18n/LangContext';
 import { t } from './i18n/translations';
+import { useRouter, parseRoute } from './hooks/useRouter';
 import useQuiz from './hooks/useQuiz';
 import useModelQuiz from './hooks/useModelQuiz';
 import LangToggle from './components/LangToggle';
 import HomeScreen from './components/HomeScreen';
+import CategoryScreen from './components/CategoryScreen';
 import QuizPage from './components/QuizPage';
 import MbtiQuizPage from './components/MbtiQuizPage';
 import Results from './components/Results';
@@ -16,7 +18,8 @@ import EnneagramResultCard from './components/EnneagramResultCard';
 import DiscResultCard from './components/DiscResultCard';
 import AttachmentResultCard from './components/AttachmentResultCard';
 import LoveLangResultCard from './components/LoveLangResultCard';
-import { AB_MODELS, BF_MODEL } from './config/models';
+import DevtypeResultCard from './components/DevtypeResultCard';
+import { AB_MODELS, BF_MODEL, ALL_MODELS } from './config/models';
 
 // ── Result card registry ──────────────────────────────────────────────────────
 
@@ -26,6 +29,7 @@ const RESULT_CARDS = {
   disc:       DiscResultCard,
   attachment: AttachmentResultCard,
   lovelang:   LoveLangResultCard,
+  devtype:    DevtypeResultCard,
 };
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -45,6 +49,10 @@ function saveStored(key, value) {
   } catch {
     // ignore storage errors
   }
+}
+
+function categoryOf(model) {
+  return model.category || 'personality';
 }
 
 // ── Big Five flow ─────────────────────────────────────────────────────────────
@@ -154,10 +162,12 @@ function GenericABFlow({ modelId, perPage, lang, onDone, onBack }) {
 
 export default function App() {
   const { lang } = useLang();
-  const [screen, setScreen] = useState('home');
+  const { path, navigate } = useRouter();
+
+  // Shared read-only result (inbound share link)
   const [sharedResult, setSharedResult] = useState(null); // { modelId, data }
 
-  // All results in one object keyed by model id
+  // All persisted results, keyed by model id
   const [storedResults, setStoredResults] = useState(() => {
     const r = {};
     r[BF_MODEL.id] = loadStored(BF_MODEL.storageKey);
@@ -167,115 +177,189 @@ export default function App() {
     return r;
   });
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [screen]);
-
-  // Parse share URL on mount
+  // Parse share URL on mount — share params are query-string based so they
+  // don't conflict with path routing.
   useEffect(() => {
     const params = parseShareParams();
     if (!params) return;
     decodeShare(params.encoded)
       .then(data => {
         setSharedResult({ modelId: params.modelId, data });
-        setScreen(`share_${params.modelId}`);
+        navigate(`/share/${params.modelId}`);
       })
       .catch(() => {/* malformed — stay on home */});
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   function handleDone(model, results) {
     saveStored(model.storageKey, results);
     setStoredResults((prev) => ({ ...prev, [model.id]: results }));
-    setScreen(`${model.id}_results`);
+    navigate(`/test/${model.id}/results`);
   }
 
-  return (
-    <>
-      <LangToggle />
+  const route = parseRoute(path);
 
-      {screen === 'home' && (
+  // ── Home ──────────────────────────────────────────────────────────────────
+  if (route.page === 'home') {
+    return (
+      <>
+        <LangToggle />
         <HomeScreen
           storedResults={storedResults}
-          onStart={(modelId) => setScreen(modelId === 'synthesis' ? 'synthesis' : modelId)}
-          onViewResults={(modelId) => setScreen(modelId === 'synthesis' ? 'synthesis' : `${modelId}_results`)}
+          onCategoryClick={(catId) => navigate(`/category/${catId}`)}
+          onSynthesisClick={() => navigate('/synthesis')}
         />
-      )}
+      </>
+    );
+  }
 
-      {screen === 'synthesis' && (
+  // ── Category ──────────────────────────────────────────────────────────────
+  if (route.page === 'category') {
+    return (
+      <>
+        <LangToggle />
+        <CategoryScreen
+          categoryId={route.categoryId}
+          storedResults={storedResults}
+          onStart={(modelId) => navigate(`/test/${modelId}`)}
+          onViewResults={(modelId) => {
+            if (modelId === 'synthesis') {
+              navigate('/synthesis');
+            } else {
+              navigate(`/test/${modelId}/results`);
+            }
+          }}
+          onBack={() => navigate('/')}
+        />
+      </>
+    );
+  }
+
+  // ── Synthesis ─────────────────────────────────────────────────────────────
+  if (route.page === 'synthesis') {
+    return (
+      <>
+        <LangToggle />
         <SynthesisReport
           storedResults={storedResults}
-          onBack={() => setScreen('home')}
+          onBack={() => navigate('/')}
         />
-      )}
+      </>
+    );
+  }
 
-      {/* Big Five */}
-      {screen === BF_MODEL.id && (
-        <BigFiveFlow
+  // ── Quiz flow ─────────────────────────────────────────────────────────────
+  if (route.page === 'test') {
+    const model = ALL_MODELS.find(m => m.id === route.modelId);
+    if (!model) { navigate('/'); return null; }
+
+    const backTo = `/category/${categoryOf(model)}`;
+
+    if (model.id === BF_MODEL.id) {
+      return (
+        <>
+          <LangToggle />
+          <BigFiveFlow
+            lang={lang}
+            onDone={(r) => handleDone(model, r)}
+            onBack={() => navigate(backTo)}
+          />
+        </>
+      );
+    }
+    return (
+      <>
+        <LangToggle />
+        <GenericABFlow
+          modelId={model.id}
+          perPage={model.perPage}
           lang={lang}
-          onDone={(r) => handleDone(BF_MODEL, r)}
-          onBack={() => setScreen('home')}
+          onDone={(r) => handleDone(model, r)}
+          onBack={() => navigate(backTo)}
         />
-      )}
-      {screen === `${BF_MODEL.id}_results` && storedResults[BF_MODEL.id] && (
-        <Results
-          results={storedResults[BF_MODEL.id]}
-          onBack={() => setScreen('home')}
-          onRetake={() => setScreen(BF_MODEL.id)}
-        />
-      )}
+      </>
+    );
+  }
 
-      {/* All A/B models */}
-      {AB_MODELS.map((model) => (
-        <Fragment key={model.id}>
-          {screen === model.id && (
-            <GenericABFlow
-              modelId={model.id}
-              perPage={model.perPage}
-              lang={lang}
-              onDone={(r) => handleDone(model, r)}
-              onBack={() => setScreen('home')}
-            />
-          )}
-          {screen === `${model.id}_results` && storedResults[model.id] && (
-            <ModelResults
-              model={model}
-              ResultCard={RESULT_CARDS[model.id]}
-              results={storedResults[model.id]}
-              onBack={() => setScreen('home')}
-              onRetake={() => setScreen(model.id)}
-            />
-          )}
-        </Fragment>
-      ))}
+  // ── Results ───────────────────────────────────────────────────────────────
+  if (route.page === 'results') {
+    const model = ALL_MODELS.find(m => m.id === route.modelId);
+    const results = storedResults[route.modelId];
 
-      {/* Shared result screens (read-only) */}
-      {screen === 'share_bigfive' && sharedResult?.data && (
-        <Results
-          results={sharedResult.data}
-          onBack={() => setScreen('home')}
-          readOnly
+    // If no results yet, redirect to the quiz
+    if (!model || !results) {
+      navigate(model ? `/test/${model.id}` : '/');
+      return null;
+    }
+
+    const backTo = `/category/${categoryOf(model)}`;
+
+    if (model.id === BF_MODEL.id) {
+      return (
+        <>
+          <LangToggle />
+          <Results
+            results={results}
+            onBack={() => navigate(backTo)}
+            onRetake={() => navigate(`/test/${model.id}`)}
+          />
+        </>
+      );
+    }
+
+    const ResultCard = RESULT_CARDS[model.id];
+    return (
+      <>
+        <LangToggle />
+        <ModelResults
+          model={model}
+          ResultCard={ResultCard}
+          results={results}
+          onBack={() => navigate(backTo)}
+          onRetake={() => navigate(`/test/${model.id}`)}
         />
-      )}
-      {screen === 'share_synthesis' && sharedResult?.data && (
-        <SynthesisReport
-          storedResults={sharedResult.data}
-          onBack={() => setScreen('home')}
-          readOnly
-        />
-      )}
-      {AB_MODELS.map((model) =>
-        screen === `share_${model.id}` && sharedResult?.data ? (
+      </>
+    );
+  }
+
+  // ── Share (read-only) ─────────────────────────────────────────────────────
+  if (route.page === 'share' && sharedResult?.data) {
+    const modelId = route.modelId;
+    const model = ALL_MODELS.find(m => m.id === modelId);
+
+    if (modelId === 'bigfive') {
+      return (
+        <>
+          <LangToggle />
+          <Results results={sharedResult.data} onBack={() => navigate('/')} readOnly />
+        </>
+      );
+    }
+    if (modelId === 'synthesis') {
+      return (
+        <>
+          <LangToggle />
+          <SynthesisReport storedResults={sharedResult.data} onBack={() => navigate('/')} readOnly />
+        </>
+      );
+    }
+    if (model && RESULT_CARDS[modelId]) {
+      return (
+        <>
+          <LangToggle />
           <ModelResults
-            key={model.id}
             model={model}
-            ResultCard={RESULT_CARDS[model.id]}
+            ResultCard={RESULT_CARDS[modelId]}
             results={sharedResult.data}
-            onBack={() => setScreen('home')}
-            onRetake={() => setScreen('home')}
+            onBack={() => navigate('/')}
+            onRetake={() => navigate('/')}
             readOnly
           />
-        ) : null
-      )}
-    </>
-  );
+        </>
+      );
+    }
+  }
+
+  // ── Fallback ──────────────────────────────────────────────────────────────
+  navigate('/');
+  return null;
 }

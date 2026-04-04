@@ -71,6 +71,34 @@ function LoveLangSvg({ color }) {
   );
 }
 
+function DevtypeSvg({ color }) {
+  // Circuit board pattern: 6 nodes connected by lines (one per archetype)
+  const nodes = [
+    [20, 14], [52, 14],
+    [8,  38], [36, 38], [64, 38],
+    [36, 62],
+  ];
+  const edges = [
+    [0, 1], [0, 2], [1, 4],
+    [2, 3], [3, 4], [3, 5],
+  ];
+  return (
+    <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {edges.map(([a, b], i) => (
+        <line key={i}
+          x1={nodes[a][0]} y1={nodes[a][1]}
+          x2={nodes[b][0]} y2={nodes[b][1]}
+          stroke={color} strokeWidth="1.5" opacity="0.3" />
+      ))}
+      {nodes.map(([cx, cy], i) => (
+        <rect key={i}
+          x={cx - 7} y={cy - 7} width="14" height="14" rx="3"
+          fill={color} opacity={i === 0 ? 0.9 : 0.2 + i * 0.1} />
+      ))}
+    </svg>
+  );
+}
+
 function BigFiveSvg({ color }) {
   // Simple pentagon
   const pts = Array.from({ length: 5 }, (_, i) => {
@@ -95,6 +123,7 @@ const ILLUSTRATIONS = {
   attachment: AttachmentSvg,
   lovelang:   LoveLangSvg,
   bigfive:    BigFiveSvg,
+  devtype:    DevtypeSvg,
 };
 
 // ─── Component ────────────────────────────────────────────────────────────────

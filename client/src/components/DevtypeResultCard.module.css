@@ -1,0 +1,84 @@
+.card {
+  background: var(--color-surface);
+  border: var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 2rem;
+}
+
+.typeText {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  line-height: 1.75;
+  margin-bottom: 1.75rem;
+}
+
+.scoresSection {
+  background: var(--color-surface-2);
+  border: 2px solid #000;
+  border-radius: var(--radius-sm);
+  padding: 1.25rem;
+}
+
+.scoresLabel {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--color-text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Wider label column than DISC to fit 5-char abbreviations like "CRAFT" */
+.barRow {
+  display: grid;
+  grid-template-columns: 3rem 1fr 2.5rem;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.barLabel {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-align: left;
+}
+
+.barLabelActive {
+  font-weight: 800;
+  color: var(--color-text);
+}
+
+.barTrack {
+  height: 8px;
+  background: var(--color-surface);
+  border: 1.5px solid #000;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  border-radius: 0;
+  transition: width 0.8s ease;
+}
+
+.barPct {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.secondaryNote {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-top: 0.25rem;
+}
