@@ -16,6 +16,7 @@ import EnneagramResultCard from './components/EnneagramResultCard';
 import DiscResultCard from './components/DiscResultCard';
 import AttachmentResultCard from './components/AttachmentResultCard';
 import LoveLangResultCard from './components/LoveLangResultCard';
+import DevtypeResultCard from './components/DevtypeResultCard';
 import { AB_MODELS, BF_MODEL } from './config/models';
 
 // ── Result card registry ──────────────────────────────────────────────────────
@@ -26,6 +27,7 @@ const RESULT_CARDS = {
   disc:       DiscResultCard,
   attachment: AttachmentResultCard,
   lovelang:   LoveLangResultCard,
+  devtype:    DevtypeResultCard,
 };
 
 // ── Helpers ───────────────────────────────────────────────────────────────────

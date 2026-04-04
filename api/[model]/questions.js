@@ -8,6 +8,7 @@ const DATA = {
   attachment: () => require('../../server/data/attachmentQuestions'),
   lovelang:   () => require('../../server/data/loveLangQuestions'),
   enneagram:  () => require('../../server/data/enneagramQuestions'),
+  devtype:    () => require('../../server/data/devtypeQuestions'),
 };
 
 function mapQuestion(model, q, lang) {
@@ -23,6 +24,7 @@ function mapQuestion(model, q, lang) {
   if (model === 'attachment') return { ...base, style: q.style };
   if (model === 'lovelang')   return { ...base, lang_a: q.lang_a, lang_b: q.lang_b };
   if (model === 'enneagram')  return { ...base, type: q.type };
+  if (model === 'devtype')    return { ...base, dimension: q.dimension, a_pole: q.a_pole, b_pole: q.b_pole };
   return base;
 }
 

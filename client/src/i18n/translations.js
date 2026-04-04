@@ -157,6 +157,34 @@ const translations = {
     share_og_title: 'My personality profile — whoami',
     share_readonly_cta: 'Take this quiz →',
     synthesis_echoes: 'Your profile echoes',
+
+    // ── Developer Type ────────────────────────────────────────────────────────
+    model_devtype_title: 'Developer Type',
+    model_devtype_desc: 'Discover your coding archetype through 24 scenario-based questions.',
+    model_devtype_questions: '24 questions',
+    model_devtype_time: '~5 min',
+    model_devtype_badge: 'Dev Type',
+    model_devtype_results_title: 'Your Developer Type',
+    model_devtype_results_subtitle: 'Based on 24 scenario questions across 6 developer archetypes.',
+    model_devtype_footer_note: "Developer types are archetypes, not fixed identities. Most developers blend multiple styles — this reflects your strongest tendencies.",
+    devtype_profile: 'Archetype breakdown',
+    devtype_secondary: 'Secondary type',
+    devtype_short_ARCH:  'The Architect',
+    devtype_short_CRAFT: 'The Craftsman',
+    devtype_short_HACK:  'The Hacker',
+    devtype_short_EXPL:  'The Explorer',
+    devtype_short_PRAG:  'The Pragmatist',
+    devtype_short_MENT:  'The Mentor',
+    devtype_abbr_ARCH:  'ARCH',
+    devtype_abbr_CRAFT: 'CRAFT',
+    devtype_abbr_HACK:  'HACK',
+    devtype_abbr_EXPL:  'EXPL',
+    devtype_abbr_PRAG:  'PRAG',
+    devtype_abbr_MENT:  'MENT',
+
+    // ── Category headers ──────────────────────────────────────────────────────
+    category_personality: 'Personality',
+    category_work: 'Work & Career',
   },
 
   vi: {
@@ -317,6 +345,34 @@ const translations = {
     share_og_title: 'Hồ sơ tính cách của tôi — whoami',
     share_readonly_cta: 'Làm bài kiểm tra này →',
     synthesis_echoes: 'Hồ sơ của bạn gợi nhớ đến',
+
+    // ── Developer Type ────────────────────────────────────────────────────────
+    model_devtype_title: 'Kiểu lập trình viên',
+    model_devtype_desc: 'Khám phá nguyên mẫu lập trình viên của bạn qua 24 câu hỏi tình huống.',
+    model_devtype_questions: '24 câu hỏi',
+    model_devtype_time: '~5 phút',
+    model_devtype_badge: 'Dev Type',
+    model_devtype_results_title: 'Kiểu lập trình viên của bạn',
+    model_devtype_results_subtitle: 'Dựa trên 24 câu hỏi tình huống về 6 nguyên mẫu lập trình viên.',
+    model_devtype_footer_note: 'Kiểu lập trình viên là nguyên mẫu, không phải đặc điểm cố định. Hầu hết lập trình viên kết hợp nhiều phong cách — đây là xu hướng mạnh nhất của bạn.',
+    devtype_profile: 'Phân tích nguyên mẫu',
+    devtype_secondary: 'Kiểu phụ',
+    devtype_short_ARCH:  'Kiến trúc sư',
+    devtype_short_CRAFT: 'Người thợ thủ công',
+    devtype_short_HACK:  'Hacker',
+    devtype_short_EXPL:  'Nhà khám phá',
+    devtype_short_PRAG:  'Người thực dụng',
+    devtype_short_MENT:  'Người hướng dẫn',
+    devtype_abbr_ARCH:  'ARCH',
+    devtype_abbr_CRAFT: 'CRAFT',
+    devtype_abbr_HACK:  'HACK',
+    devtype_abbr_EXPL:  'EXPL',
+    devtype_abbr_PRAG:  'PRAG',
+    devtype_abbr_MENT:  'MENT',
+
+    // ── Category headers ──────────────────────────────────────────────────────
+    category_personality: 'Tính cách',
+    category_work: 'Công việc & Sự nghiệp',
   },
 };
 

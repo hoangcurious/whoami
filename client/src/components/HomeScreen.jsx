@@ -6,6 +6,17 @@ import styles from './HomeScreen.module.css';
 
 const ALL_MODELS = [BF_MODEL, ...AB_MODELS];
 
+// Group models by category. Models without a category fall into 'personality'.
+function groupByCategory(models) {
+  const groups = {};
+  for (const m of models) {
+    const cat = m.category || 'personality';
+    if (!groups[cat]) groups[cat] = [];
+    groups[cat].push(m);
+  }
+  return groups;
+}
+
 function ModelCard({ model, result, onStart, onViewResults, lang }) {
   const done = !!result;
   const id = model.id;
@@ -37,6 +48,13 @@ function ModelCard({ model, result, onStart, onViewResults, lang }) {
       return (
         <span className={styles.iconLetterSm} style={{ color: model.color }}>
           {t(`lovelang_short_${topLang.lang}`, lang)}
+        </span>
+      );
+    }
+    if (id === 'devtype' && done) {
+      return (
+        <span className={styles.iconLetterSm} style={{ color: model.color }}>
+          {result.devtype.primary}
         </span>
       );
     }
@@ -128,6 +146,9 @@ function SynthesisCard({ storedResults, onStart, onViewResults, lang }) {
 
 export default function HomeScreen({ storedResults, onStart, onViewResults }) {
   const { lang } = useLang();
+  const grouped = groupByCategory(ALL_MODELS);
+  const personalityModels = grouped.personality || [];
+  const workModels = grouped.work || [];
 
   return (
     <div className={styles.wrapper}>
@@ -136,24 +157,47 @@ export default function HomeScreen({ storedResults, onStart, onViewResults }) {
         <h1 className={styles.title}>{t('title', lang)}</h1>
         <p className={styles.subtitle}>{t('home_subtitle', lang)}</p>
 
-        <div className={styles.cards}>
-          {ALL_MODELS.map((model) => (
-            <ModelCard
-              key={model.id}
-              model={model}
-              result={storedResults[model.id]}
+        {/* Personality category */}
+        <section className={styles.categorySection}>
+          <h2 className={styles.categoryHeader}>{t('category_personality', lang)}</h2>
+          <div className={styles.cards}>
+            {personalityModels.map((model) => (
+              <ModelCard
+                key={model.id}
+                model={model}
+                result={storedResults[model.id]}
+                onStart={onStart}
+                onViewResults={onViewResults}
+                lang={lang}
+              />
+            ))}
+            <SynthesisCard
+              storedResults={storedResults}
               onStart={onStart}
               onViewResults={onViewResults}
               lang={lang}
             />
-          ))}
-          <SynthesisCard
-            storedResults={storedResults}
-            onStart={onStart}
-            onViewResults={onViewResults}
-            lang={lang}
-          />
-        </div>
+          </div>
+        </section>
+
+        {/* Work & Career category */}
+        {workModels.length > 0 && (
+          <section className={styles.categorySection}>
+            <h2 className={styles.categoryHeader}>{t('category_work', lang)}</h2>
+            <div className={styles.cards}>
+              {workModels.map((model) => (
+                <ModelCard
+                  key={model.id}
+                  model={model}
+                  result={storedResults[model.id]}
+                  onStart={onStart}
+                  onViewResults={onViewResults}
+                  lang={lang}
+                />
+              ))}
+            </div>
+          </section>
+        )}
 
         <div className={styles.meta}>
           <span>{t('meta_signup', lang)}</span>

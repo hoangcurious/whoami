@@ -49,6 +49,7 @@ module.exports = (req, res) => {
     attachment: () => require('../../server/data/attachmentQuestions'),
     lovelang:   () => require('../../server/data/loveLangQuestions'),
     enneagram:  () => require('../../server/data/enneagramQuestions'),
+    devtype:    () => require('../../server/data/devtypeQuestions'),
   };
 
   const loader = AB_DATA[model];
@@ -101,6 +102,10 @@ module.exports = (req, res) => {
   if (model === 'enneagram') {
     const { scoreEnneagram } = require('../../server/lib/enneagram');
     return res.json({ enneagram: scoreEnneagram(answers, questions, lang) });
+  }
+  if (model === 'devtype') {
+    const { scoreDevtype } = require('../../server/lib/devtype');
+    return res.json({ devtype: scoreDevtype(answers, questions, lang) });
   }
 
   return res.status(404).json({ error: 'Unknown model' });

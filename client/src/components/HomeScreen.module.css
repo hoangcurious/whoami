@@ -262,3 +262,20 @@
   color: var(--color-text-muted);
   margin: 0;
 }
+
+
+/* ── Category sections ────────────────────────────────────────────────────── */
+.categorySection {
+  margin-bottom: 3rem;
+}
+
+.categoryHeader {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+  margin-bottom: 0.875rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #000;
+}
