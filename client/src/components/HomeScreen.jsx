@@ -97,10 +97,11 @@ function SynthesisCard({ storedResults, onView, lang }) {
             ))}
           </div>
         )}
+        <button className="btn btn-primary" style={{ marginTop: '0.875rem' }}
+          onClick={(e) => { e.stopPropagation(); onView(); }}>
+          {t('synthesis_card_view', lang)}
+        </button>
       </div>
-      <button className="btn btn-primary" onClick={(e) => { e.stopPropagation(); onView(); }}>
-        {t('synthesis_card_view', lang)}
-      </button>
     </div>
   );
 }
